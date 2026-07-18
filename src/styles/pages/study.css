@@ -1,0 +1,489 @@
+.study-page {
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+/* ========== Study Hero ========== */
+.study-hero {
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+
+.study-hero-prompt {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.prompt-dollar {
+  color: #00ff00;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+/* ========== Section Title (Token Style) ========== */
+.study-section-title {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.1em;
+}
+
+.study-section-title .bracket {
+  color: #999;
+  font-weight: 300;
+}
+
+.study-section-title .slash {
+  color: #ccc;
+  font-weight: 300;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #666;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 3rem;
+}
+
+/* ========== Categories Section ========== */
+.categories-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.category-card {
+  position: relative;
+  padding: 2rem;
+  border: 1px solid #eee;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  opacity: 0;
+}
+
+.category-card:hover {
+  border-color: #000;
+  transform: translateX(6px);
+  box-shadow: -6px 6px 0 #000;
+}
+
+.cat-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+
+.cat-card-title {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cat-prompt {
+  font-size: 0.875rem;
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.category-card:hover .cat-prompt {
+  color: #000;
+}
+
+.cat-card-en {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.cat-card-desc {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.cat-card-count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* ========== Notes Section ========== */
+.notes-section {
+  padding: 4rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.back-btn {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: #666;
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+}
+
+.back-btn:hover {
+  color: #000;
+}
+
+.notes-title {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.1em;
+}
+
+.notes-title .bracket {
+  color: #999;
+  font-weight: 300;
+}
+
+.notes-title .slash {
+  color: #ccc;
+  font-weight: 300;
+}
+
+.notes-count-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid #ddd;
+  color: #666;
+}
+
+/* ========== Notes List ========== */
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.note-item {
+  display: flex;
+  gap: 1rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.note-item:first-child {
+  border-top: 1px solid #f0f0f0;
+}
+
+.note-item:hover {
+  padding-left: 1rem;
+}
+
+.note-prompt {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: #ccc;
+  padding-top: 0.25rem;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.note-item:hover .note-prompt {
+  color: #000;
+}
+
+.note-content {
+  flex: 1;
+}
+
+.note-title {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  transition: color 0.2s;
+}
+
+.note-item:hover .note-title {
+  color: #333;
+}
+
+.note-summary {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.note-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.note-date {
+  color: #999;
+  font-style: italic;
+}
+
+.note-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.note-tag {
+  color: #666;
+  background: #f5f5f5;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+}
+
+.note-readmore {
+  color: #000;
+  font-weight: 500;
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.note-item:hover .note-readmore {
+  transform: translateX(4px);
+}
+
+/* ========== Empty State ========== */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #999;
+}
+
+.empty-icon {
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-sub {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+  .study-hero {
+    padding: 3rem 1rem 2.5rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .note-item {
+    padding: 1.5rem 0;
+  }
+
+  .note-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .note-readmore {
+    margin-left: 0;
+  }
+
+  .notes-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ========== ASCII 背景装饰 (Study) ========== */
+.study-page .ascii-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.study-page .ascii-scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.study-page .ascii-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.study-page .ascii-scroll-track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.study-page .ascii-scroll-item {
+  width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.study-page .ascii-bg-art {
+  font-family: 'Courier New', 'Consolas', 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.25);
+  white-space: pre;
+  text-align: center;
+  letter-spacing: -0.05em;
+  max-width: 60%;
+  max-height: 80%;
+  overflow: hidden;
+}
+
+/* ========== Quick Links 常用链接 ========== */
+.quicklinks-section {
+  padding: 4rem 2rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.quicklinks-simple {
+  margin-top: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.8rem;
+}
+
+.ql-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.3rem 0;
+  transition: all 0.25s ease;
+  color: #aaa;
+}
+
+.ql-link:hover {
+  color: var(--accent);
+}
+
+/* 小圆点 */
+.ql-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.ql-link:hover .ql-dot {
+  box-shadow: 0 0 8px var(--accent);
+  transform: scale(1.3);
+}
+
+.ql-link-title {
+  font-weight: 600;
+  color: #ddd;
+  transition: color 0.25s;
+}
+
+.ql-link:hover .ql-link-title {
+  color: var(--accent);
+}
+
+.ql-link-desc {
+  color: #666;
+  font-size: 0.82rem;
+  transition: color 0.25s;
+}
+
+.ql-link:hover .ql-link-desc {
+  color: #888;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .quicklinks-section {
+    padding: 3rem 1rem 1.5rem;
+  }
+
+  .quicklinks-simple {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+}
