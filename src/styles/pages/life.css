@@ -1,0 +1,314 @@
+.life-page {
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+.life-hero {
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+
+.study-hero-prompt {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.prompt-dollar {
+  color: #00ff88;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.green-accent {
+  color: #00cc66;
+  font-weight: 500;
+}
+
+/* ===== 3D 胶卷墙 ===== */
+.filmstrip-section {
+  padding: 5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.filmstrip-container {
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.filmstrip-wall {
+  display: flex;
+  gap: 1rem;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.film-frame {
+  transform-style: preserve-3d;
+  transition: all 0.25s ease;
+  padding: 4px;
+}
+
+.film-frame:hover {
+  transform: scale(1.08) translateZ(40px) !important;
+  z-index: 10;
+}
+
+.film-strip {
+  display: flex;
+  background: #1a1a1a;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.film-frame:hover .film-strip {
+  box-shadow:
+    0 8px 40px rgba(0, 255, 136, 0.2),
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(0, 255, 136, 0.3);
+}
+
+.film-perforations {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 6px;
+  background: #111;
+}
+
+.film-perforations.right {
+  border-left: 1px solid #2a2a2a;
+}
+
+.film-hole {
+  width: 8px;
+  height: 6px;
+  background: #0a0a0a;
+  border-radius: 1px;
+}
+
+.film-image-area {
+  position: relative;
+  width: 190px;
+  height: 260px;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.film-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.film-frame:hover .film-photo {
+  transform: scale(1.05);
+}
+
+.film-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background: linear-gradient(135deg, #1a1a1a, #222);
+}
+
+.placeholder-frame-number {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: #444;
+  font-weight: 700;
+}
+
+.placeholder-hint {
+  font-size: 0.65rem;
+  color: #555;
+  font-family: var(--font-mono);
+}
+
+/* ===== 日记区域 ===== */
+.journal-section {
+  padding: 5rem 2rem;
+  background: #fafafa;
+}
+
+.journal-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.journal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.journal-item {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.journal-item:hover {
+  border-color: #00ff88;
+  transform: translateX(6px);
+  box-shadow: -6px 6px 0 rgba(0, 255, 136, 0.3);
+}
+
+.journal-date {
+  min-width: 80px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.journal-day {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #00cc66;
+}
+
+.journal-month {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #999;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+  letter-spacing: 0.1em;
+}
+
+.journal-content {
+  flex: 1;
+}
+
+.journal-title {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.journal-content p {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .film-image-area {
+    width: 150px;
+    height: 210px;
+  }
+
+  .filmstrip-wall {
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .journal-item {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .journal-date {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .film-image-area {
+    width: 130px;
+    height: 180px;
+  }
+
+  .film-frame {
+    padding: 2px;
+  }
+}
+
+/* ========== ASCII 背景装饰 ========== */
+.life-page .ascii-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.life-page .ascii-scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.life-page .ascii-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.life-page .ascii-scroll-track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.life-page .ascii-scroll-item {
+  width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.life-page .ascii-bg-art {
+  font-family: 'Courier New', 'Consolas', 'JetBrains Mono', monospace;
+  font-size: 0.45rem;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.15);
+  white-space: pre;
+  text-align: center;
+  letter-spacing: -0.05em;
+  max-width: 60%;
+  max-height: 80%;
+  overflow: hidden;
+}

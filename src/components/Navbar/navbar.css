@@ -1,0 +1,143 @@
+.token-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+}
+
+.token-nav.scrolled {
+  padding: 0.75rem 2rem;
+  border-bottom: 1px solid #eee;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.token-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.token-nav-logo {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: -0.02em;
+}
+
+.logo-bracket {
+  color: #999;
+  font-weight: 300;
+}
+
+.logo-text {
+  color: #000;
+}
+
+.token-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.token-nav-link {
+  position: relative;
+  text-decoration: none;
+  color: #666;
+  transition: color 0.2s;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.token-nav-link:hover {
+  color: #00cc66;
+}
+
+.token-nav-link.active {
+  color: #00cc66;
+  font-weight: 700;
+}
+
+.link-bracket {
+  color: #ccc;
+  font-weight: 300;
+  transition: color 0.2s;
+}
+
+.token-nav-link:hover .link-bracket,
+.token-nav-link.active .link-bracket {
+  color: #00cc66;
+}
+
+.token-nav-github {
+  padding: 0.4rem 1rem;
+  border: 1px solid #000;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: #000;
+  transition: all 0.2s;
+  background: #fff;
+}
+
+.token-nav-github:hover {
+  background: #000;
+  color: #fff;
+}
+
+.token-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .token-nav {
+    padding: 0.75rem 1rem;
+  }
+
+  .token-nav-links {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    border-bottom: 1px solid #eee;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .token-nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .token-nav-toggle {
+    display: block;
+  }
+}

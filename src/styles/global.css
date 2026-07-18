@@ -1,0 +1,360 @@
+:root {
+  --color-bg: #ffffff;
+  --color-fg: #000000;
+  --color-accent: #000000;
+  --color-muted: #666666;
+  --color-border: #e5e5e5;
+  --color-terminal-green: #00ff00;
+  --color-card-bg: rgba(255, 255, 255, 0.95);
+  --color-card-border: rgba(0, 0, 0, 0.08);
+  --color-heading: #1a1a2e;
+  --color-accent-purple: #667eea;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  --font-serif: 'Noto Serif SC', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+.noise-bg {
+  position: relative;
+}
+
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1.2em;
+  background-color: #000;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+.drop-cap::first-letter {
+  float: left;
+  font-size: 3.5rem;
+  line-height: 0.8;
+  padding-right: 0.5rem;
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+.terminal-quote {
+  border-left: 3px solid #000;
+  padding-left: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+/* 绿色高亮点缀 */
+.green-accent {
+  color: #00cc66;
+  font-weight: 500;
+}
+
+/* ========== 黑白模式 ========== */
+.app-container.black-white {
+  --color-bg: #f5f5f5;
+  --color-fg: #1a1a1a;
+  --color-muted: #666666;
+  --color-border: #d0d0d0;
+  --color-card-bg: rgba(245, 245, 245, 0.98);
+  --color-card-border: rgba(0, 0, 0, 0.1);
+  --color-heading: #1a1a1a;
+  --color-accent-purple: #555;
+}
+
+.app-container.black-white body {
+  background-color: #f5f5f5;
+  color: #1a1a1a;
+}
+
+.app-container.black-white img {
+  filter: grayscale(100%);
+}
+
+.app-container.black-white .ascii-art,
+.app-container.black-white .hero-ascii,
+.app-container.black-white .gallery-item {
+  filter: grayscale(100%);
+}
+
+.app-container.black-white .token-nav {
+  background: rgba(245, 245, 245, 0.95);
+  border-bottom-color: #d0d0d0;
+}
+
+.app-container.black-white .token-nav-logo,
+.app-container.black-white .token-nav-link,
+.app-container.black-white .token-nav-link.active {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .logo-bracket,
+.app-container.black-white .link-bracket {
+  color: #999;
+}
+
+.app-container.black-white .token-nav-link:hover .link-bracket,
+.app-container.black-white .token-nav-link.active .link-bracket {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .token-nav-github {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+  background: #f5f5f5;
+}
+
+.app-container.black-white .token-nav-github:hover {
+  background: #1a1a1a;
+  color: #f5f5f5;
+}
+
+.app-container.black-white .notes-sidebar,
+.app-container.black-white .notes-content {
+  background: rgba(245, 245, 245, 0.98);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.app-container.black-white .sidebar-count {
+  color: #555;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.app-container.black-white .sidebar-title {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .stat-number {
+  color: #555;
+}
+
+.app-container.black-white .path-prompt {
+  color: #555;
+}
+
+.app-container.black-white .markdown-body {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .markdown-body h1,
+.app-container.black-white .markdown-body h2,
+.app-container.black-white .markdown-body h3,
+.app-container.black-white .markdown-body h4 {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .markdown-body h1 {
+  border-bottom-color: #999;
+}
+
+.app-container.black-white .markdown-body h2 {
+  border-left-color: #999;
+}
+
+.app-container.black-white .markdown-body blockquote {
+  border-left-color: #999;
+  background: rgba(0, 0, 0, 0.03);
+  color: #555;
+}
+
+.app-container.black-white .markdown-body code {
+  color: #555;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.app-container.black-white .markdown-body pre {
+  background: #2a2a2a;
+  color: #d0d0d0;
+}
+
+.app-container.black-white .markdown-body a {
+  color: #555;
+}
+
+.app-container.black-white .sidebar-zoom-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #555;
+}
+
+.app-container.black-white .sidebar-resize-handle::after {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.app-container.black-white .image-placeholder {
+  background: #f0f0f0;
+  border-color: #ccc;
+}
+
+.app-container.black-white .note-preview-header {
+  background: #f0f0f0;
+}
+
+.app-container.black-white .note-preview-title {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .welcome-title {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .welcome-text {
+  color: #555;
+}
+
+.app-container.black-white .welcome-icon {
+  color: #bbb;
+}
+
+.app-container.black-white .section-subtitle {
+  color: #555;
+}
+
+.app-container.black-white .token-section-title span {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .token-section-title .bracket,
+.app-container.black-white .token-section-title .slash {
+  color: #999;
+}
+
+.app-container.black-white .doing-item {
+  background: rgba(245, 245, 245, 0.98);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.app-container.black-white .doing-item h3 {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .doing-item p {
+  color: #555;
+}
+
+.app-container.black-white .about-text p {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .about-text blockquote {
+  border-left-color: #999;
+  color: #555;
+}
+
+.app-container.black-white .about-side h3 {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .about-list li {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .post-item {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.app-container.black-white .post-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.app-container.black-white .post-title {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .post-summary {
+  color: #555;
+}
+
+.app-container.black-white .post-date {
+  color: #999;
+}
+
+.app-container.black-white .tech-tag {
+  background: rgba(0, 0, 0, 0.05);
+  color: #555;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.app-container.black-white .token-link {
+  color: #555;
+}
+
+.app-container.black-white .sidebar-tree .tree-item {
+  color: #1a1a1a;
+}
+
+.app-container.black-white .sidebar-tree .tree-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.app-container.black-white .sidebar-tree .tree-item-selected {
+  background: rgba(0, 0, 0, 0.06);
+  color: #1a1a1a;
+}
+
+.app-container.black-white .sidebar-tree .tree-count {
+  color: #999;
+}
+
+.app-container.black-white .footer-content,
+.app-container.black-white .footer-tagline {
+  color: #999;
+}
+
+.app-container.black-white .footer-links a {
+  color: #555;
+}

@@ -1,0 +1,30 @@
+.glitch-container {
+  font-family: 'Courier New', 'Consolas', 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  color: rgba(0, 255, 0, 0.3);
+}
+
+.glitch-grid {
+  display: grid;
+  grid-template-columns: repeat(30, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  gap: 0;
+}
+
+.glitch-cell {
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.glitch-active {
+  color: #00ff00;
+  text-shadow: 
+    0 0 5px #00ff00,
+    0 0 10px #00ff00;
+  animation: glitch-flicker 0.15s ease;
+}
+
+@keyframes glitch-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

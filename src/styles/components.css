@@ -1,0 +1,170 @@
+/* 按钮样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #000;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-family: var(--font-mono);
+}
+
+.btn:hover {
+  background: #000;
+  color: #fff;
+}
+
+.btn-primary {
+  background: #000;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #333;
+}
+
+/* 卡片样式 */
+.card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border-color: #000;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* 终端风格的提示 */
+.terminal-prompt {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.terminal-prompt::before {
+  content: '$ ';
+  color: #999;
+}
+
+/* 分隔线 */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #000, transparent);
+  margin: 2rem 0;
+}
+
+/* 下划线链接效果 */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+  color: #000;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #000;
+  transition: width 0.3s ease;
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* 图片容器 */
+.image-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.image-frame:hover img {
+  transform: scale(1.05);
+}
+
+/* 章节标题 */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60%;
+  height: 2px;
+  background: #000;
+}
+
+/* Token 风格链接按钮 */
+.token-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #000;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: #fff;
+  cursor: pointer;
+}
+
+.token-link:hover {
+  background: #000;
+  color: #fff;
+}
+
+.link-prompt {
+  transition: transform 0.2s ease;
+}
+
+.token-link:hover .link-prompt {
+  transform: translateX(2px);
+}

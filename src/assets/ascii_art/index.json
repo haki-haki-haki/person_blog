@@ -1,0 +1,62 @@
+[
+  {
+    "file": "1.jpg",
+    "output": "ascii_art/1.txt",
+    "lines": 330,
+    "chars": 198330
+  },
+  {
+    "file": "2.jpg",
+    "output": "ascii_art/2.txt",
+    "lines": 333,
+    "chars": 200133
+  },
+  {
+    "file": "3.jpg",
+    "output": "ascii_art/3.txt",
+    "lines": 440,
+    "chars": 264440
+  },
+  {
+    "file": "6.jpg",
+    "output": "ascii_art/6.txt",
+    "lines": 219,
+    "chars": 131619
+  },
+  {
+    "file": "7.jpg",
+    "output": "ascii_art/7.txt",
+    "lines": 219,
+    "chars": 131619
+  },
+  {
+    "file": "Naruto_1_寄到春日信_来自小红书网页版.jpg",
+    "output": "ascii_art/Naruto_1_寄到春日信_来自小红书网页版.txt",
+    "lines": 330,
+    "chars": 198330
+  },
+  {
+    "file": "Naruto_2_寄到春日信_来自小红书网页版.jpg",
+    "output": "ascii_art/Naruto_2_寄到春日信_来自小红书网页版.txt",
+    "lines": 330,
+    "chars": 198330
+  },
+  {
+    "file": "Naruto_3_寄到春日信_来自小红书网页版.jpg",
+    "output": "ascii_art/Naruto_3_寄到春日信_来自小红书网页版.txt",
+    "lines": 330,
+    "chars": 198330
+  },
+  {
+    "file": "最爱鸣人图片1_1_难得-_来自小红书网页版.jpg",
+    "output": "ascii_art/最爱鸣人图片1_1_难得-_来自小红书网页版.txt",
+    "lines": 472,
+    "chars": 283672
+  },
+  {
+    "file": "最爱鸣人图片1_难得-_来自小红书网页版.jpg",
+    "output": "ascii_art/最爱鸣人图片1_难得-_来自小红书网页版.txt",
+    "lines": 330,
+    "chars": 198330
+  }
+]
