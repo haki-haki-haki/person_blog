@@ -16,6 +16,7 @@ const categoryNames: Record<string, string> = {
   '计算机视觉与数学': '计算机视觉与数学',
   '项目实战': '项目实战',
   '杂项': '杂项',
+  '工具与部署': '工具与部署',
 };
 
 export async function loadNoteTree(): Promise<TreeNode> {

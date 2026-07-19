@@ -1,7 +1,5 @@
 [TOC]
 
-
-
 # DMA 双缓冲
 
 ## 简易原理图
@@ -22,8 +20,6 @@ flowchart LR
 | **内存占用**       | 1×数据块大小             | 2×数据块大小       |
 | **CPU干预频率**    | 每个数据块传输完成都需要 | 仅缓冲区切换时需要 |
 | **适用场景**       | 低速率简单传输           | 高速实时数据流     |
-
-
 
 ## 基础配置
 
@@ -52,8 +48,6 @@ hdma_adc.Instance->CR |= DMA_SxCR_DBM;// 启用双缓冲
 
 ```
 
-
-
 ## ADC双缓冲采集
 
 ### 硬件
@@ -61,8 +55,6 @@ hdma_adc.Instance->CR |= DMA_SxCR_DBM;// 启用双缓冲
 STM32F407 ---- 模拟信号源
 PA0(ADC1_IN0) <-- 信号输入
 DMA1_Stream0--> 双缓冲区
-
-
 
 ```c
 #define BUFFER_SIZE 1024
@@ -130,8 +122,6 @@ buf[i] = buf[i] * 3300 / 4095; // 转换为mV
 
 ```
 
-
-
 ## 串口DMA接收
 
 ### 单缓冲弊端
@@ -145,8 +135,6 @@ HAL_UART_Receive_DMA(&huart1, rx_buffer, 256);
 ```
 
 数据自动填满缓冲区后触发 `RxCpltCallback `，然后你在回调里处理数据。 由于处理数据需要时间，但是仍然在接受，而且没处理完，数据仍然在到来，会覆盖原本的数据。第257个字节来了 → 写入 `rx_buffer[0]`。
-
-
 
 ### 硬件双缓冲
 
@@ -227,17 +215,11 @@ void Process_UART_Data(uint8_t *data, uint16_t len)
 }
 ```
 
-
-
-
-
 ### 软件双缓冲
 
 只用**1 个数组**，不开 DMA 双缓冲 DBM，靠数组前后两半模拟两块缓冲区；只用普通循环 DMA。
 
 数组长度RX_BUF_LEN,前半段/2，后半段/2.
-
-
 
 ```c
 #define RX_BUF_LEN 256
@@ -310,8 +292,6 @@ while(1)
 }
 ```
 
-
-
 ### 软硬件区分
 
 软件双缓冲（单数组对半）
@@ -338,8 +318,6 @@ while(1)
 
 不管你开不开硬件 DBM 双缓冲，只要 DMA 是循环模式 CIRCULAR，HT 半传输、TC 全传输中断本身就存在，硬件自带，和 DBM 无关。
 
-
-
 ### HT TC中断
 
 前提配置：
@@ -348,19 +326,13 @@ DMA 模式配置为 `DMA_CIRCULAR` 循环模式
 
 HAL 初始化时开启了传输完成中断（带_IT 的启动函数）
 
-
-
 **TC 传输完成**：NDTR 计数降到 0，一整段长度收满
 
 **HT 半传输完成**：NDTR 计数走到一半长度
 
-
-
 ## 环形缓冲区（FIFO）
 
 双缓冲也会出现丢包得问题，在软件的双缓冲上会出现某一帧被缓冲区截断得情况，在硬件双缓冲会出现某一帧的部分被覆盖得情况，这时候可以采用环形FIFO来减少丢包的问题
-
-
 
 整体架构
 
@@ -371,8 +343,6 @@ HAL 初始化时开启了传输完成中断（带_IT 的启动函数）
 缓存层：环形 FIFO，缓存多包，防止 DMA 覆盖未处理数据
 
 业务层：主循环读取 FIFO 解析数据
-
-
 
 宏与变量
 
@@ -402,8 +372,6 @@ DMA_HandleTypeDef hdma_usart1_rx;
 
 初始化省略
 
-
-
 DMA 缓冲区数据拷贝进环形 FIFO
 
 ```c
@@ -426,8 +394,6 @@ static void Copy_To_Fifo(uint8_t *src, uint16_t len)
 }
 ```
 
-
-
 DMA 传输完成回调（仅置标记）
 
 ```c
@@ -445,8 +411,6 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 }
 ```
 
-
-
 空闲中断回调
 
 ```c
@@ -462,8 +426,6 @@ void HAL_UART_IdleCpltCallback(UART_HandleTypeDef *huart)
         buf_flag = 2;
 }
 ```
-
-
 
 主函数处理
 
@@ -511,4 +473,3 @@ int main(void)
     }
 }
 ```
-

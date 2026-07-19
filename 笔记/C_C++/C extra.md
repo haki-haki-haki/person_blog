@@ -33,15 +33,11 @@ HAL_OK = (uint8_t)0;  // 强制转换为8位
 HAL_OK = 0U;          // 同样是32位无符号整数，值为0
 ```
 
-
-
 ## union联合体
 
 联合体（共用体）`union`：**所有成员共享同一块内存空间**，同一时刻只能有效使用其中一个成员；占用内存大小 = 占用最大字节的成员长度。
 
 和结构体`struct`区别：结构体成员独立分配内存，联合体共用内存。
-
-
 
 单片机外设寄存器、CAN、串口、ADC 数据经常：
 
@@ -83,3 +79,59 @@ float temp = frame.f;
 通信收发缓冲区是字节数组，但业务数据是 16/32 位整型、浮点。
 
 联合体实现**字节数组 ↔ 数值类型无缝转换**，不用手动拼接高低字节。
+
+## _weak弱函数
+
+`__weak` 是 **ARM GCC 编译器扩展语法**，标准 C 语言本身没有这个关键字，只在 STM32、单片机嵌入式开发常用。
+
+库中先定义一个空的`__weak`默认函数；
+
+用户工程里写**同名普通函数**，会自动覆盖弱函数；
+
+如果用户不实现，程序自动使用库内弱函数，不会报未定义错误
+
+demo 
+
+文件1
+
+```c
+// lib.c
+#include <stdio.h>
+#define UNUSED(x) (void)(x)
+
+// 弱函数
+__weak void HAL_WWDG_Callback(void)
+{
+    printf("执行库里面的弱函数（默认空逻辑）\r\n");
+}
+
+// 底层固定调用入口
+void WWDG_ISR(void)
+{
+    HAL_WWDG_Callback();
+}
+```
+
+文件2
+
+```c
+#include <stdio.h>
+
+// 强函数，自动覆盖上面的弱函数
+void HAL_WWDG_Callback(void)
+{
+    printf("执行用户写的强函数，覆盖库弱函数\r\n");
+}
+
+extern void WWDG_ISR(void);
+
+int main(void)
+{
+    WWDG_ISR();
+    return 0;
+}
+```
+
+输出 执行用户写的强函数，覆盖库弱函数
+
+多用于库提供回调接口（WWDG、EXTI、UART、TIM 所有 HAL 回调）；

@@ -109,6 +109,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/DMA 双缓冲.md',
     tags: ['DMA', '双缓冲', 'STM32', 'ADC', '串口'],
   },
+  {
+    id: 'embedded-12',
+    title: 'WWDG —— 窗口看门狗',
+    category: 'embedded',
+    date: '2025-07-19',
+    summary: '整理 IWDG 与 WWDG 的工作原理、寄存器含义、窗口期判断、溢出时间计算公式和 CubeMX 配置要点...',
+    filePath: '/notes/embedded/WWDG.md',
+    tags: ['WWDG', 'IWDG', 'STM32', '看门狗'],
+  },
   // C/C++
   {
     id: 'cpp-1',
@@ -136,6 +145,15 @@ export const notes: Note[] = [
     summary: 'C++面向对象编程核心概念：继承方式、虚函数表、多态实现原理、构造函数调用顺序...',
     filePath: '/notes/C_C++/继承与派生.md',
     tags: ['C++', '继承', '多态', '面向对象'],
+  },
+  {
+    id: 'cpp-4',
+    title: 'C/C++ 优化 Keil',
+    category: 'cpp',
+    date: '2025-07-19',
+    summary: '记录 Keil 编译器优化选项、循环展开、CPU 流水线阻塞、内联函数、volatile 与位运算等优化知识...',
+    filePath: '/notes/C_C++/C and C++ 优化 keil.md',
+    tags: ['C', 'C++', 'Keil', '优化'],
   },
   // 前端开发
   {
@@ -184,6 +202,34 @@ export const notes: Note[] = [
     summary: 'Dart裁判系统的通信协议解析：帧格式定义、CRC校验、USART6+DMA2中断处理、GPIO调试指示灯...',
     filePath: '/notes/项目实战/Dart 裁判系统.md',
     tags: ['Dart', '裁判系统', '通信协议', 'RoboMaster'],
+  },
+  // 工具与部署
+  {
+    id: 'tools-1',
+    title: 'git',
+    category: 'tools',
+    date: '2025-07-19',
+    summary: '从 Git 的版本管理作用讲起，整理仓库初始化、状态查看、提交、历史记录、回退与分支等常用操作...',
+    filePath: '/notes/工具与部署/git.md',
+    tags: ['Git', '版本管理', '命令行'],
+  },
+  {
+    id: 'tools-2',
+    title: 'GitHub与远程同步',
+    category: 'tools',
+    date: '2025-07-19',
+    summary: '记录 GitHub 远程仓库创建、SSH Key 配置、远程地址绑定、push/pull 同步和常见问题处理...',
+    filePath: '/notes/工具与部署/GitHub与远程同步.md',
+    tags: ['GitHub', 'SSH', '远程同步'],
+  },
+  {
+    id: 'tools-3',
+    title: '网页发布公网',
+    category: 'tools',
+    date: '2025-07-19',
+    summary: '梳理从本地网页到 GitHub 仓库、云服务器拉取代码、Nginx 指向网站目录并通过公网访问的完整流程...',
+    filePath: '/notes/工具与部署/网页发布公网.md',
+    tags: ['网页部署', 'GitHub', 'Nginx', '服务器'],
   },
   // 杂项
   {

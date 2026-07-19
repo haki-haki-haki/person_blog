@@ -29,8 +29,8 @@ export const categories: Category[] = [
     name: 'C/C++',
     nameEn: 'C/C++',
     icon: '🔧',
-    description: 'C语言基础、位运算、指针、继承与派生等底层编程知识',
-    noteCount: 3,
+    description: 'C语言基础、位运算、指针、继承与派生、Keil 优化等底层编程知识',
+    noteCount: 4,
   },
   {
     id: 'vision',
@@ -47,6 +47,14 @@ export const categories: Category[] = [
     icon: '🚀',
     description: 'Dart 裁判系统、RoboMaster 比赛项目经验',
     noteCount: 1,
+  },
+  {
+    id: 'tools',
+    name: '工具与部署',
+    nameEn: 'Tools & Deploy',
+    icon: '🛠️',
+    description: 'Git、GitHub远程同步、网页发布公网、服务器部署等工具链笔记',
+    noteCount: 3,
   },
   {
     id: 'misc',
