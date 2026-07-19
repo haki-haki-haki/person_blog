@@ -79,7 +79,7 @@ const AskAI = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: '你好，我可以根据 Hakii 的笔记帮你解释文章内容。你可以问我某个概念、某篇文章的步骤，或者让它用更简单的话讲一遍。',
+      content: '你好，我是 Haki，可以根据 Hakii 的笔记帮你解释文章内容。你可以问我某个概念、某篇文章的步骤，或者让它用更简单的话讲一遍。',
     },
   ]);
 
@@ -96,8 +96,8 @@ const AskAI = () => {
       role: 'assistant',
       mode: 'local-search',
       content: sources.length
-        ? '当前还没有连接 AI 后端，我先帮你从文章里找到这些相关片段。配置 Vercel API 后，我就能基于这些片段生成完整解释。'
-        : '当前还没有连接 AI 后端，而且我没有在文章里找到明显相关的内容。你可以换个关键词试试。',
+        ? '当前还没有连接 Haki 后端，我先帮你从文章里找到这些相关片段。配置 Vercel API 后，我就能基于这些片段生成完整解释。'
+        : '当前还没有连接 Haki 后端，而且我没有在文章里找到明显相关的内容。你可以换个关键词试试。',
       sources,
     };
   };
@@ -111,7 +111,7 @@ const AskAI = () => {
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data?.error || 'AI 服务暂时不可用');
+      throw new Error(data?.error || 'Haki 服务暂时不可用');
     }
 
     return {
@@ -138,7 +138,7 @@ const AskAI = () => {
         ...prev,
         {
           role: 'assistant',
-          content: error instanceof Error ? error.message : 'AI 服务暂时不可用，请稍后再试。',
+          content: error instanceof Error ? error.message : 'Haki 服务暂时不可用，请稍后再试。',
         },
       ]);
     } finally {
@@ -148,9 +148,9 @@ const AskAI = () => {
 
   return (
     <>
-      <button className="ask-ai-fab" onClick={() => setOpen(true)} aria-label="打开 AI 问答">
+      <button className="ask-ai-fab" onClick={() => setOpen(true)} aria-label="打开 Haki 问答">
         <Bot size={20} />
-        <span>Ask AI</span>
+        <span>Ask Haki</span>
       </button>
 
       {open && (
@@ -159,11 +159,11 @@ const AskAI = () => {
             <div>
               <div className="ask-ai-title">
                 <MessageCircle size={18} />
-                文章问答助手
+                Haki 文章问答助手
               </div>
               <p>根据博客笔记回答，不懂就问它。</p>
             </div>
-            <button onClick={() => setOpen(false)} aria-label="关闭 AI 问答">
+            <button onClick={() => setOpen(false)} aria-label="关闭 Haki 问答">
               <X size={18} />
             </button>
           </div>
