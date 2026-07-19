@@ -23,6 +23,7 @@ function App() {
           <Route path="/note/:id" element={<NoteDetail />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/notes/:notePath" element={<Notes />} />
+          <Route path="/notes/*" element={<Notes />} />
           <Route path="/life" element={<Life />} />
           <Route path="/diary" element={<Diary />} />
           <Route path="/ghostty" element={<Ghostty />} />

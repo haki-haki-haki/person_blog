@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -18,7 +18,7 @@ import powershell from 'react-syntax-highlighter/dist/esm/languages/hljs/powersh
 import json from 'react-syntax-highlighter/dist/esm/languages/hljs/json';
 import plaintext from 'react-syntax-highlighter/dist/esm/languages/hljs/plaintext';
 import mermaid from 'mermaid';
-import { Folder, FileText, ChevronLeft, ChevronRight, RefreshCw, ZoomIn, ZoomOut } from 'lucide-react';
+import { Folder, FileText, ChevronLeft, ChevronRight, RefreshCw, ZoomIn, ZoomOut, ListTree, PanelLeftOpen } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import AsciiBackground from '@/components/AsciiGallery/AsciiGallery';
@@ -60,7 +60,12 @@ mermaid.initialize({
 });
 
 const Notes = () => {
-  const { notePath } = useParams<{ notePath?: string }>();
+  const params = useParams<{ notePath?: string; '*': string }>();
+  const location = useLocation();
+  const pathnameNotePath = location.pathname.includes('/notes/')
+    ? decodeURIComponent(location.pathname.split('/notes/')[1] || '')
+    : '';
+  const notePath = pathnameNotePath || params['*'] || params.notePath;
   const navigate = useNavigate();
   
   const [treeData, setTreeData] = useState<TreeNode | null>(null);
@@ -72,10 +77,72 @@ const Notes = () => {
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [isResizing, setIsResizing] = useState(false);
   const [sidebarZoom, setSidebarZoom] = useState(1);
+  const [showFileTree, setShowFileTree] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef(0);
   const startWidthRef = useRef(0);
+
+  interface TocItem {
+    id: string;
+    text: string;
+    level: number;
+  }
+
+  const slugifyHeading = (text: string) =>
+    text
+      .trim()
+      .toLowerCase()
+      .replace(/[`*_~[\](){}|.!?，。！？、:：；;'"“”‘’<>]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '') || 'heading';
+
+  const getTextFromChildren = (children: any): string => {
+    if (typeof children === 'string' || typeof children === 'number') return String(children);
+    if (Array.isArray(children)) return children.map(getTextFromChildren).join('');
+    if (children?.props?.children) return getTextFromChildren(children.props.children);
+    return '';
+  };
+
+  const extractToc = (content: string): TocItem[] => {
+    const toc: TocItem[] = [];
+    const slugCounts = new Map<string, number>();
+    let inFence = false;
+
+    content.split('\n').forEach((line) => {
+      if (/^\s*```/.test(line) || /^\s*~~~/.test(line)) {
+        inFence = !inFence;
+        return;
+      }
+      if (inFence) return;
+
+      const match = /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
+      if (!match) return;
+
+      const level = match[1].length;
+      const text = match[2]
+        .replace(/!\[[^\]]*]\([^)]*\)/g, '')
+        .replace(/\[([^\]]+)]\([^)]*\)/g, '$1')
+        .replace(/[`*_~]/g, '')
+        .replace(/<[^>]+>/g, '')
+        .trim();
+      if (!text) return;
+
+      const baseSlug = slugifyHeading(text);
+      const count = slugCounts.get(baseSlug) || 0;
+      slugCounts.set(baseSlug, count + 1);
+      toc.push({
+        id: count === 0 ? baseSlug : `${baseSlug}-${count + 1}`,
+        text,
+        level,
+      });
+    });
+
+    return toc;
+  };
+
+  const tocItems = noteContent ? extractToc(noteContent.replace(/\[TOC\]/gi, '')) : [];
 
   useEffect(() => {
     const loadTree = async () => {
@@ -161,8 +228,10 @@ const Notes = () => {
     setSelectedNode(node);
     
     if (node.type === 'file') {
+      setShowFileTree(false);
       const relativePath = node.path.replace('/笔记/', '');
-      navigate(`/notes/${encodeURIComponent(relativePath)}`);
+      const routePath = relativePath.split('/').map(encodeURIComponent).join('/');
+      navigate(`/notes/${routePath}`);
       loadNoteContent(node.path);
     } else {
       navigate('/notes');
@@ -237,6 +306,30 @@ const Notes = () => {
     );
     
     return processed;
+  };
+
+  const scrollToHeading = (headingId: string) => {
+    const heading = document.getElementById(headingId);
+    if (!heading) return;
+
+    heading.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
+
+  const createHeadingComponent = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
+    const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+    return ({ children, ...props }: any) => {
+      const text = getTextFromChildren(children);
+      const matched = tocItems.find((item) => item.level === level && item.text === text);
+      const fallbackId = slugifyHeading(text);
+      return (
+        <Tag id={matched?.id || fallbackId} {...props}>
+          {children}
+        </Tag>
+      );
+    };
   };
 
   const MermaidBlock = ({ code }: { code: string }) => {
@@ -324,6 +417,16 @@ const Notes = () => {
     );
   };
 
+  const markdownComponents = {
+    pre: CustomCodeBlock,
+    h1: createHeadingComponent(1),
+    h2: createHeadingComponent(2),
+    h3: createHeadingComponent(3),
+    h4: createHeadingComponent(4),
+    h5: createHeadingComponent(5),
+    h6: createHeadingComponent(6),
+  };
+
   return (
     <div className="notes-page">
       <AsciiBackground />
@@ -362,16 +465,46 @@ const Notes = () => {
         >
           <div className="sidebar-header">
             <div className="sidebar-title">
-              <Folder size={16} />
-              <span>笔记目录</span>
+              {selectedNode?.type === 'file' && !showFileTree ? (
+                <ListTree size={16} />
+              ) : (
+                <Folder size={16} />
+              )}
+              <span>{selectedNode?.type === 'file' && !showFileTree ? '文档目录' : '笔记目录'}</span>
             </div>
-            {treeData && (
+            {selectedNode?.type === 'file' && !showFileTree ? (
+              <span className="sidebar-count">
+                {tocItems.length} 项
+              </span>
+            ) : treeData && (
               <span className="sidebar-count">
                 {getFileCount(treeData)} 篇笔记
               </span>
             )}
           </div>
 
+          {selectedNode?.type === 'file' && (
+            <div className="sidebar-mode-actions">
+              <button
+                className="sidebar-mode-btn"
+                onClick={() => setShowFileTree(prev => !prev)}
+              >
+                {showFileTree ? (
+                  <>
+                    <ListTree size={14} />
+                    <span>显示文档目录</span>
+                  </>
+                ) : (
+                  <>
+                    <PanelLeftOpen size={14} />
+                    <span>显示全部笔记</span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+          {(showFileTree || selectedNode?.type !== 'file') && (
           <div className="sidebar-controls">
             <button 
               className="sidebar-zoom-btn"
@@ -388,31 +521,55 @@ const Notes = () => {
               <ZoomIn size={12} />
             </button>
           </div>
+          )}
 
-          <div 
-            className="sidebar-tree"
-            style={{ transform: `scale(${sidebarZoom})`, transformOrigin: 'top left' }}
-          >
-            {loading ? (
-              <div className="sidebar-loading">
-                <RefreshCw size={16} className="loading-spinner" />
-                <span>加载中...</span>
-              </div>
-            ) : treeData ? (
-              <Tree
-                node={treeData}
-                expandedKeys={expandedKeys}
-                selectedKey={selectedNode?.id || null}
-                onExpand={handleExpand}
-                onSelect={handleSelect}
-              />
-            ) : (
-              <div className="sidebar-empty">
-                <FileText size={24} />
-                <p>暂无笔记</p>
-              </div>
-            )}
-          </div>
+          {selectedNode?.type === 'file' && !showFileTree ? (
+            <nav className="document-toc">
+              {tocItems.length > 0 ? (
+                tocItems.map((item) => (
+                  <button
+                    key={item.id}
+                    className={`document-toc-item toc-level-${item.level}`}
+                    onClick={() => scrollToHeading(item.id)}
+                    title={item.text}
+                  >
+                    <span className="toc-marker">#</span>
+                    <span>{item.text}</span>
+                  </button>
+                ))
+              ) : (
+                <div className="sidebar-empty compact">
+                  <FileText size={24} />
+                  <p>当前文档没有标题</p>
+                </div>
+              )}
+            </nav>
+          ) : (
+            <div 
+              className="sidebar-tree"
+              style={{ transform: `scale(${sidebarZoom})`, transformOrigin: 'top left' }}
+            >
+              {loading ? (
+                <div className="sidebar-loading">
+                  <RefreshCw size={16} className="loading-spinner" />
+                  <span>加载中...</span>
+                </div>
+              ) : treeData ? (
+                <Tree
+                  node={treeData}
+                  expandedKeys={expandedKeys}
+                  selectedKey={selectedNode?.id || null}
+                  onExpand={handleExpand}
+                  onSelect={handleSelect}
+                />
+              ) : (
+                <div className="sidebar-empty">
+                  <FileText size={24} />
+                  <p>暂无笔记</p>
+                </div>
+              )}
+            </div>
+          )}
 
           <button
             className="sidebar-toggle"
@@ -446,9 +603,7 @@ const Notes = () => {
                   <ReactMarkdown 
                     remarkPlugins={[remarkGfm, remarkMath]}
                     rehypePlugins={[rehypeRaw, rehypeKatex]}
-                    components={{
-                      pre: CustomCodeBlock,
-                    }}
+                    components={markdownComponents}
                     skipHtml={false}
                   >
                     {preprocessMarkdown(noteContent)}
