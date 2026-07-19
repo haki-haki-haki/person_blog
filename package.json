@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build:ai-index": "node scripts/build-ai-index.mjs",
+    "build": "npm run build:ai-index && tsc -b && vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
   },

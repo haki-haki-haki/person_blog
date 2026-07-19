@@ -7,6 +7,7 @@ import Notes from '@/pages/Notes';
 import Diary from '@/pages/Diary/Diary';
 import Ghostty from '@/pages/Ghostty';
 import Settings from '@/components/Settings/Settings';
+import AskAI from '@/components/AskAI/AskAI';
 import { useStore } from '@/store/useStore';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <div className={`app-container ${isBlackWhite ? 'black-white' : ''}`}>
       <BrowserRouter basename="/person_blog">
         <Settings />
+        <AskAI />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/study" element={<Study />} />
