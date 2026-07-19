@@ -31,15 +31,7 @@ export async function loadNoteTree(): Promise<TreeNode> {
   const nodeMap = new Map<string, TreeNode>();
   nodeMap.set('notes-root', root);
 
-  for (const [path, loader] of Object.entries(notesGlob)) {
-    let content: unknown = '';
-    try {
-      content = await loader();
-    } catch {
-      // 跳过无法加载的文件（编码问题等）
-      continue;
-    }
-    
+  for (const path of Object.keys(notesGlob)) {
     const cleanPath = path.replace(/\\/g, '/');
     const parts = cleanPath.split('/').filter(p => p && p !== '..');
     
@@ -87,7 +79,6 @@ export async function loadNoteTree(): Promise<TreeNode> {
         name: baseName,
         type: 'file',
         path: cleanPath,
-        content: content as string,
       };
       nodeMap.set(fileId, fileNode);
       

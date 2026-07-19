@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import AsciiBackground from '@/components/AsciiGallery/AsciiGallery';
@@ -9,25 +9,47 @@ import '@/styles/pages/life.css';
 const Life = () => {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const filmstripRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<number | null>(null);
+  const nextMousePosRef = useRef({ x: 0.5, y: 0.5 });
 
   // 用户上传照片后放到 public/life-photos/ 目录，命名规则 photo-1.jpg ~ photo-N.jpg
   // 胶卷相框数量（根据实际照片数量调整）
   const filmFrameCount = 9;
   const basePath = import.meta.env.BASE_URL;
-  const filmImages = Array.from({ length: filmFrameCount }, (_, i) => `${basePath}life-photos/photo-${i + 1}.jpg`);
+  const filmImages = useMemo(
+    () => Array.from({ length: filmFrameCount }, (_, i) => `${basePath}life-photos/photo-${i + 1}.jpg`),
+    [basePath]
+  );
+  const filmThumbs = useMemo(
+    () => Array.from({ length: filmFrameCount }, (_, i) => `${basePath}life-photos/thumbs/photo-${i + 1}.jpg`),
+    [basePath]
+  );
 
   // Lightbox 状态
   const [lightboxOpen, setLightboxOpen] = useState<number | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const x = e.clientX / window.innerWidth;
-      const y = e.clientY / window.innerHeight;
-      setMousePos({ x, y });
+      nextMousePosRef.current = {
+        x: e.clientX / window.innerWidth,
+        y: e.clientY / window.innerHeight,
+      };
+
+      if (frameRef.current !== null) return;
+
+      frameRef.current = window.requestAnimationFrame(() => {
+        setMousePos(nextMousePosRef.current);
+        frameRef.current = null;
+      });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -93,9 +115,14 @@ const Life = () => {
                   </div>
                   <div className="film-image-area" onClick={() => setLightboxOpen(i)}>
                     <img
-                      src={`${basePath}life-photos/photo-${i + 1}.jpg`}
+                      src={filmThumbs[i]}
                       alt={`photo ${i + 1}`}
                       className="film-photo"
+                      width="380"
+                      height="520"
+                      loading={i < 3 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      fetchPriority={i < 3 ? 'high' : 'low'}
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none';
                         const placeholder = (e.target as HTMLImageElement).nextElementSibling;
