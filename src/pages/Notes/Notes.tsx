@@ -73,6 +73,8 @@ const Notes = () => {
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set(['notes-root']));
   const [selectedNode, setSelectedNode] = useState<TreeNode | null>(null);
   const [noteContent, setNoteContent] = useState<string>('');
+  const [contentLoading, setContentLoading] = useState(false);
+  const [contentError, setContentError] = useState('');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [isResizing, setIsResizing] = useState(false);
@@ -183,7 +185,7 @@ const Notes = () => {
           });
           
           if (node.type === 'file') {
-            loadNoteContent(node.path);
+            loadNoteContent(node);
           }
           return true;
         }
@@ -207,9 +209,24 @@ const Notes = () => {
     }
   }, [treeData, notePath]);
 
-  const loadNoteContent = async (path: string) => {
-    const content = await getNoteContent(path);
-    setNoteContent(content || '');
+  const loadNoteContent = async (nodeOrPath: TreeNode | string) => {
+    const path = typeof nodeOrPath === 'string' ? nodeOrPath : (nodeOrPath.sourcePath || nodeOrPath.path);
+    setContentLoading(true);
+    setContentError('');
+    setNoteContent('');
+
+    try {
+      const content = await getNoteContent(path);
+      if (content) {
+        setNoteContent(content);
+      } else {
+        setContentError('这篇笔记暂时没有加载出来，请刷新页面或稍后再试。');
+      }
+    } catch {
+      setContentError('笔记内容加载失败，请检查网络后重试。');
+    } finally {
+      setContentLoading(false);
+    }
   };
 
   const handleExpand = (key: string) => {
@@ -232,10 +249,12 @@ const Notes = () => {
       const relativePath = node.path.replace('/笔记/', '');
       const routePath = relativePath.split('/').map(encodeURIComponent).join('/');
       navigate(`/notes/${routePath}`);
-      loadNoteContent(node.path);
+      loadNoteContent(node);
     } else {
       navigate('/notes');
       setNoteContent('');
+      setContentError('');
+      setContentLoading(false);
     }
   };
 
@@ -599,7 +618,17 @@ const Notes = () => {
               </header>
               
               <article className="note-preview-body markdown-body">
-                {noteContent ? (
+                {contentLoading ? (
+                  <div className="note-loading">
+                    <RefreshCw size={20} className="loading-spinner" />
+                    <span>正在加载笔记内容...</span>
+                  </div>
+                ) : contentError ? (
+                  <div className="note-loading">
+                    <FileText size={24} />
+                    <span>{contentError}</span>
+                  </div>
+                ) : noteContent ? (
                   <ReactMarkdown 
                     remarkPlugins={[remarkGfm, remarkMath]}
                     rehypePlugins={[rehypeRaw, rehypeKatex]}
@@ -610,8 +639,8 @@ const Notes = () => {
                   </ReactMarkdown>
                 ) : (
                   <div className="note-loading">
-                    <RefreshCw size={20} className="loading-spinner" />
-                    <span>加载内容...</span>
+                    <FileText size={24} />
+                    <span>这篇笔记没有内容</span>
                   </div>
                 )}
               </article>

@@ -3,6 +3,7 @@ export interface TreeNode {
   name: string;
   type: 'folder' | 'file';
   path: string;
+  sourcePath?: string;
   children?: TreeNode[];
   content?: string;
 }
@@ -78,7 +79,8 @@ export async function loadNoteTree(): Promise<TreeNode> {
         id: fileId,
         name: baseName,
         type: 'file',
-        path: cleanPath,
+        path: `/笔记/${categoryDir}/${fileName}`,
+        sourcePath: cleanPath,
       };
       nodeMap.set(fileId, fileNode);
       
@@ -111,9 +113,17 @@ export async function getNoteContent(path: string): Promise<string | undefined> 
   if (loader) {
     try { return (await loader()) as string; } catch { /* ignore */ }
   }
+
+  const normalizedPath = path.replace(/\\/g, '/');
   
   for (const [key, loader] of Object.entries(notesGlob)) {
-    if (key.includes(path) || path.includes(key)) {
+    const normalizedKey = key.replace(/\\/g, '/');
+    if (
+      normalizedKey === normalizedPath ||
+      normalizedKey.endsWith(normalizedPath) ||
+      normalizedPath.endsWith(normalizedKey) ||
+      normalizedKey.includes(normalizedPath)
+    ) {
       try { return (await loader()) as string; } catch { /* ignore */ }
     }
   }

@@ -27,6 +27,7 @@ const Tree: React.FC<TreeProps> = ({
     e.stopPropagation();
     if (node.type === 'folder') {
       onExpand(node.id);
+      return;
     }
     onSelect(node);
   };
