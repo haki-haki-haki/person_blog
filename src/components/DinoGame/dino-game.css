@@ -1,0 +1,17 @@
+.dino-game-wrapper {
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #111111;
+}
+
+.dino-game-canvas {
+  display: block;
+  width: 100%;
+  height: 200px;
+  cursor: pointer;
+  image-rendering: pixelated;
+}

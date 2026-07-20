@@ -6,6 +6,7 @@ import NoteDetail from '@/pages/NoteDetail';
 import Notes from '@/pages/Notes';
 import Diary from '@/pages/Diary/Diary';
 import Ghostty from '@/pages/Ghostty';
+import Play from '@/pages/Play';
 import Settings from '@/components/Settings/Settings';
 import AskAI from '@/components/AskAI/AskAI';
 import { useStore } from '@/store/useStore';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/life" element={<Life />} />
           <Route path="/diary" element={<Diary />} />
           <Route path="/ghostty" element={<Ghostty />} />
+          <Route path="/play" element={<Play />} />
         </Routes>
       </BrowserRouter>
     </div>

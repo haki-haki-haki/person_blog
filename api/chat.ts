@@ -15,7 +15,7 @@ type ChatRequest = {
 };
 
 const DEFAULT_API_BASE_URL = 'https://ark.cn-beijing.volces.com/api/v3';
-const DEFAULT_MODEL = 'codingplan';
+const DEFAULT_MODEL = 'doubao-seed-1-6-flash-250828';
 
 function json(res: any, status: number, data: unknown) {
   res.statusCode = status;

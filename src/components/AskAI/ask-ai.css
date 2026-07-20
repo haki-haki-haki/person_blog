@@ -23,13 +23,34 @@
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
 }
 
+/* Haki Cat icon — custom cat with headset */
+.ask-ai-cat-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.ask-ai-fab:hover .ask-ai-cat-icon {
+  transform: rotate(-6deg) scale(1.1);
+}
+
+/* title bar: dark cat on white bg — eye stays white, pupil dark */
+.ask-ai-title .ask-ai-cat-icon {
+  color: #111;
+  --ask-ai-icon-eye: #fff;
+  --ask-ai-icon-pupil: #111;
+  --ask-ai-icon-nose: #ff9eb1;
+  --ask-ai-icon-whisker: rgba(0,0,0,0.35);
+  --ask-ai-icon-code: rgba(0,0,0,0.4);
+  --ask-ai-icon-inner: rgba(0,0,0,0.12);
+}
+
 .ask-ai-panel {
   position: fixed;
   right: 1.25rem;
   bottom: 8.75rem;
   z-index: 1101;
-  width: min(420px, calc(100vw - 2rem));
-  height: min(620px, calc(100vh - 7rem));
+  /* width & height now controlled by inline style (resizable) */
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 18px;
@@ -38,14 +59,23 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: box-shadow 0.2s ease;
 }
 
+/* pinned state: stronger shadow + subtle blue border glow */
+.ask-ai-panel.ask-ai-pinned {
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(102, 126, 234, 0.35);
+}
+
+/* ---------- header ---------- */
 .ask-ai-header {
   padding: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 1rem;
+  user-select: none;
 }
 
 .ask-ai-title {
@@ -62,13 +92,54 @@
   font-size: 0.8rem;
 }
 
+.ask-ai-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.ask-ai-header-actions button,
 .ask-ai-header button {
   border: none;
   background: transparent;
   cursor: pointer;
   color: #666;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
+.ask-ai-header-actions button:hover,
+.ask-ai-header button:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #111;
+}
+
+/* pinned pin button active style */
+.ask-ai-pinned .ask-ai-header-actions button[aria-label="取消置顶"] {
+  color: #4452b8;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.ask-ai-pin-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(102, 126, 234, 0.12);
+  color: #4452b8;
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  line-height: 1.4;
+}
+
+/* ---------- messages ---------- */
 .ask-ai-messages {
   flex: 1;
   overflow-y: auto;
@@ -181,6 +252,7 @@
   overflow: hidden;
 }
 
+/* ---------- quick questions ---------- */
 .ask-ai-quick {
   display: flex;
   gap: 0.45rem;
@@ -204,6 +276,7 @@
   color: #4452b8;
 }
 
+/* ---------- input ---------- */
 .ask-ai-input {
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   padding: 0.85rem;
@@ -243,6 +316,37 @@
   cursor: not-allowed;
 }
 
+/* ---------- resize handle ---------- */
+.ask-ai-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  cursor: nwse-resize;
+  z-index: 10;
+}
+
+.ask-ai-resize-handle::before {
+  content: '';
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 3px 0;
+  transition: border-color 0.15s ease;
+}
+
+.ask-ai-resize-handle:hover::before,
+.ask-ai-resize-handle:active::before {
+  border-color: rgba(102, 126, 234, 0.6);
+  border-width: 2.5px;
+}
+
+/* ---------- responsive ---------- */
 @media (max-width: 640px) {
   .ask-ai-fab {
     right: 1rem;
@@ -253,7 +357,12 @@
     right: 0.75rem;
     left: 0.75rem;
     bottom: 8.5rem;
-    width: auto;
-    height: min(620px, calc(100vh - 6rem));
+    width: auto !important;
+    height: min(620px, calc(100vh - 6rem)) !important;
+  }
+
+  /* disable resize handle on mobile */
+  .ask-ai-resize-handle {
+    display: none;
   }
 }

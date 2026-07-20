@@ -5,6 +5,7 @@ import { useStore } from '@/store/useStore';
 import { translations } from '@/i18n/translations';
 import myPortrait from '@/assets/my-portrait.txt?raw';
 import myPortraitLeft from '@/assets/my-portrait-left.txt?raw';
+import VisitorGreeting from '@/components/VisitorGreeting/VisitorGreeting';
 
 const Hero = () => {
   const [showCursor, setShowCursor] = useState(true);
@@ -54,6 +55,7 @@ const Hero = () => {
           <p className="ghostty-subtitle">
             {t.subtitle}
           </p>
+          <VisitorGreeting />
           <div className="ghostty-actions">
             <Link to="/study" className="ghostty-link">
               <span className="link-arrow">→</span>

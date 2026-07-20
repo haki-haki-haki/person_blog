@@ -1,0 +1,177 @@
+.play-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.play-main {
+  flex: 1;
+  padding: 4rem 2rem;
+}
+
+.play-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.play-back-link {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: rgba(0, 255, 136, 0.6);
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: color 0.2s ease;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+}
+
+.play-back-link:hover {
+  color: #00ff88;
+  border-color: rgba(0, 255, 136, 0.5);
+}
+
+.play-title {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.play-title .bracket {
+  color: rgba(0, 255, 136, 0.5);
+}
+
+.play-title span:nth-child(2) {
+  color: #fff;
+}
+
+.play-title .slash {
+  color: rgba(0, 255, 136, 0.5);
+}
+
+.play-subtitle {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 2.5rem;
+}
+
+/* ---- game tab switcher ---- */
+.play-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(0, 255, 136, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.play-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.7rem 1.2rem;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(0, 255, 136, 0.1);
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.play-tab:last-child {
+  border-right: none;
+}
+
+.play-tab:hover {
+  background: rgba(0, 255, 136, 0.04);
+}
+
+.play-tab-active {
+  background: rgba(0, 255, 136, 0.08);
+  box-shadow: inset 0 -2px 0 #00ff88;
+}
+
+.play-tab-label {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease;
+}
+
+.play-tab-active .play-tab-label {
+  color: #00ff88;
+}
+
+.play-tab-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.25);
+  transition: color 0.2s ease;
+}
+
+.play-tab-active .play-tab-tag {
+  color: rgba(0, 255, 136, 0.6);
+}
+
+.play-game-container {
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+
+.play-instructions {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid rgba(0, 255, 136, 0.15);
+  border-radius: 4px;
+  padding: 1.5rem;
+  background: rgba(0, 255, 136, 0.02);
+}
+
+.play-instructions-title {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: rgba(0, 255, 136, 0.5);
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.play-instructions-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.play-instruction-item {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.play-instruction-item kbd {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  border-radius: 3px;
+  color: #00ff88;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.play-instructions-note {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
