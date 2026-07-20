@@ -27,6 +27,7 @@ const Navbar = () => {
     { path: '/diary', label: 'Diary', labelCn: '日记' },
     { path: '/life', label: 'Life', labelCn: '生活' },
     { path: '/ghostty', label: 'Ghostty', labelCn: '动态字符' },
+    { path: '/play', label: 'Play', labelCn: '游戏' },
   ];
 
   const isActive = (path: string) => {

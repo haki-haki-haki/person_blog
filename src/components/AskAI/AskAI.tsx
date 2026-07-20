@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Loader2, Pin, PinOff, Send, X } from 'lucide-react';
 import './ask-ai.css';
 
-/* ---- Hakii Cat icon — a custom cat with headset & tail ---- */
+/* Haki 猫形标志：带耳机和尾巴的自定义图标 */
 type IconProps = { size?: number; className?: string };
 
 const HakiCatIcon = ({ size = 20, className }: IconProps) => (
@@ -14,37 +14,37 @@ const HakiCatIcon = ({ size = 20, className }: IconProps) => (
     className={className}
     aria-hidden="true"
   >
-    {/* body — sitting oval */}
+    {/* 身体 */}
     <ellipse cx="12" cy="17" rx="5" ry="4.5" fill="currentColor" />
-    {/* head */}
+    {/* 头部 */}
     <circle cx="12" cy="10.5" r="4.5" fill="currentColor" />
-    {/* left ear */}
+    {/* 左耳 */}
     <polygon points="8.5,7 7,2.5 10.5,6" fill="currentColor" />
-    {/* right ear */}
+    {/* 右耳 */}
     <polygon points="15.5,7 17,2.5 13.5,6" fill="currentColor" />
-    {/* inner left ear */}
+    {/* 左耳内侧 */}
     <polygon points="8.8,6.5 7.8,3.8 10.2,6" fill="var(--ask-ai-icon-inner, rgba(255,255,255,0.25))" />
-    {/* inner right ear */}
+    {/* 右耳内侧 */}
     <polygon points="15.2,6.5 16.2,3.8 13.8,6" fill="var(--ask-ai-icon-inner, rgba(255,255,255,0.25))" />
-    {/* eyes */}
+    {/* 眼睛 */}
     <circle cx="10.2" cy="10" r="0.9" fill="var(--ask-ai-icon-eye, #fff)" />
     <circle cx="13.8" cy="10" r="0.9" fill="var(--ask-ai-icon-eye, #fff)" />
-    {/* pupils */}
+    {/* 瞳孔 */}
     <circle cx="10.5" cy="9.8" r="0.45" fill="var(--ask-ai-icon-pupil, #111)" />
     <circle cx="14.1" cy="9.8" r="0.45" fill="var(--ask-ai-icon-pupil, #111)" />
-    {/* nose */}
+    {/* 鼻子 */}
     <ellipse cx="12" cy="11.3" rx="0.55" ry="0.4" fill="var(--ask-ai-icon-nose, #ff9eb1)" />
-    {/* mouth */}
+    {/* 嘴巴 */}
     <path d="M11.3 11.7 Q12 12.3 12.7 11.7" stroke="var(--ask-ai-icon-nose, #ff9eb1)" strokeWidth="0.45" fill="none" strokeLinecap="round" />
-    {/* whiskers */}
+    {/* 胡须 */}
     <line x1="7.5" y1="11" x2="9.5" y2="10.6" stroke="var(--ask-ai-icon-whisker, rgba(255,255,255,0.55))" strokeWidth="0.35" />
     <line x1="7.5" y1="12" x2="9.5" y2="11.8" stroke="var(--ask-ai-icon-whisker, rgba(255,255,255,0.55))" strokeWidth="0.35" />
     <line x1="16.5" y1="11" x2="14.5" y2="10.6" stroke="var(--ask-ai-icon-whisker, rgba(255,255,255,0.55))" strokeWidth="0.35" />
     <line x1="16.5" y1="12" x2="14.5" y2="11.8" stroke="var(--ask-ai-icon-whisker, rgba(255,255,255,0.55))" strokeWidth="0.35" />
-    {/* front paws */}
+    {/* 前爪 */}
     <ellipse cx="9" cy="20.5" rx="1.5" ry="1" fill="currentColor" />
     <ellipse cx="15" cy="20.5" rx="1.5" ry="1" fill="currentColor" />
-    {/* tail — curling up to the right */}
+    {/* 尾巴 */}
     <path
       d="M17 18 Q20 17 20.5 14.5 Q21 12 18.5 11.5"
       stroke="currentColor"
@@ -142,14 +142,14 @@ const AskAI = () => {
     },
   ]);
 
-  /* ---- resizable state ---- */
+  /* 面板尺寸调整状态 */
   const [size, setSize] = useState({ w: DEFAULT_W, h: DEFAULT_H });
   const resizing = useRef(false);
   const startPos = useRef({ x: 0, y: 0 });
   const startSize = useRef({ w: DEFAULT_W, h: DEFAULT_H });
   const panelRef = useRef<HTMLDivElement>(null);
 
-  /* ---- click-outside handler ---- */
+  /* 点击外部关闭：置顶时不自动关闭 */
   useEffect(() => {
     if (!open || pinned) return;
     const handler = (e: MouseEvent) => {
@@ -158,7 +158,7 @@ const AskAI = () => {
         setOpen(false);
       }
     };
-    // delay to avoid the same click that opened the panel from closing it
+    // 延迟绑定，避免打开面板的同一次点击立刻关闭面板
     const id = requestAnimationFrame(() => {
       document.addEventListener('mousedown', handler);
     });
@@ -168,7 +168,7 @@ const AskAI = () => {
     };
   }, [open, pinned]);
 
-  /* ---- resize handlers ---- */
+  /* 拖拽右下角调整面板大小 */
   const onResizeStart = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     resizing.current = true;
@@ -193,82 +193,44 @@ const AskAI = () => {
     document.addEventListener('mouseup', onUp);
   }, [size]);
 
-  /* ---- double-click header to reset size ---- */
+  /* 双击标题栏恢复默认大小 */
   const onHeaderDoubleClick = useCallback(() => {
     setSize({ w: DEFAULT_W, h: DEFAULT_H });
   }, []);
 
-  // Decode API key at runtime (in useEffect) to prevent esbuild from
-  // inlining the decoded plaintext key into the build output.
-  const [arkApiKey, setArkApiKey] = useState('');
-  useEffect(() => {
-    const b64 = (import.meta.env.VITE_ARK_API_KEY_B64 || '').trim();
-    if (!b64) return;
-    try {
-      setArkApiKey(atob(b64));
-    } catch {
-      /* invalid base64 */
-    }
+  const apiUrl = useMemo(() => {
+    return (import.meta.env.VITE_AI_API_URL || '').trim();
   }, []);
-
-  const ARK_BASE = 'https://ark.cn-beijing.volces.com/api/v3';
-  const ARK_MODEL = 'ep-20260719233406-4gxpd';
 
   const askLocalIndex = async (value: string): Promise<{ text: string; sources: Source[] }> => {
     const response = await fetch(`${import.meta.env.BASE_URL}ai-index/notes-index.json`);
     const index = await response.json();
     const sources = localSearch(value, index.chunks || []);
     const text = sources.length
-      ? '我在文章里没有找到明显相关的内容。你可以换个关键词试试。'
+      ? '当前还没有连接 Haki 后端，我先帮你从文章里找到相关片段。配置 Vercel API 后，我就能基于这些片段生成完整解释。'
       : '我在文章里没有找到明显相关的内容。你可以换个关键词试试。';
     return { text, sources };
   };
 
-  const askArk = async (value: string): Promise<{ text: string; sources: Source[]; mode: string }> => {
-    // 1) local retrieval first — keep full chunks for prompt
-    const response = await fetch(`${import.meta.env.BASE_URL}ai-index/notes-index.json`);
-    const index = await response.json();
-    const sources = localSearch(value, index.chunks || []);
-
-    // 2) build prompt from full chunks
-    const matchedChunks = (index.chunks || []).filter((c: AiIndexChunk) =>
-      sources.some((s) => s.id === c.id),
-    );
-    const context = matchedChunks
-      .map((c: AiIndexChunk, i: number) => `资料${i + 1}：${c.title}（${c.category}/${c.heading}）\n${c.content}`)
-      .join('\n\n---\n\n');
-
-    const systemPrompt =
-      '你是这个个人博客的文章问答助手。请只根据给定资料回答用户问题，不要编造文章里没有的信息。如果资料不足，请直接说明"这部分文章里没有写清楚"。回答要口语化、清晰，适合给博客访客解释。最后用"参考文章"列出用到的文章标题。';
-
-    const userPrompt = `用户问题：${value}\n\n可参考资料：\n${context || '没有检索到相关资料。'}`;
-
-    // 3) call ark
-    const arkRes = await fetch(`${ARK_BASE}/chat/completions`, {
+  const askRemoteApi = async (value: string): Promise<{ text: string; sources: Source[]; mode: string }> => {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${arkApiKey}`,
       },
-      body: JSON.stringify({
-        model: ARK_MODEL,
-        temperature: 0.2,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-      }),
+      body: JSON.stringify({ question: value }),
     });
 
-    if (!arkRes.ok) {
-      const errText = await arkRes.text();
-      throw new Error(`模型调用失败：${arkRes.status} ${errText.slice(0, 200)}`);
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error || 'Haki 服务暂时不可用');
     }
 
-    const data = await arkRes.json();
-    const answer = data?.choices?.[0]?.message?.content || '模型没有返回有效回答。';
-
-    return { text: answer, sources, mode: 'ai' };
+    return {
+      text: data.answer || '没有返回回答。',
+      sources: data.sources || [],
+      mode: data.mode || 'ai',
+    };
   };
 
   const submitQuestion = async (input?: string) => {
@@ -282,16 +244,12 @@ const AskAI = () => {
     try {
       let result: { text: string; sources: Source[]; mode?: string };
 
-      if (arkApiKey) {
-        // 有密钥：本地检索 + 火山方舟 LLM
-        result = await askArk(value);
+      if (apiUrl) {
+        result = await askRemoteApi(value);
       } else {
-        // 无密钥：仅本地检索
         const local = await askLocalIndex(value);
         result = {
-          text: local.sources.length
-            ? '当前还没有配置 AI 密钥，我先帮你从文章里找到相关片段。配置火山方舟密钥后，我就能生成完整解释。'
-            : '没有找到相关内容，换个关键词试试。',
+          text: local.text,
           sources: local.sources,
           mode: 'local-search',
         };
@@ -346,6 +304,7 @@ const AskAI = () => {
             </div>
             <div className="ask-ai-header-actions">
               <button
+                className="ask-ai-pin-btn"
                 onClick={() => setPinned((p) => !p)}
                 aria-label={pinned ? '取消置顶' : '置顶'}
                 title={pinned ? '取消置顶' : '置顶'}
@@ -417,7 +376,7 @@ const AskAI = () => {
             </button>
           </form>
 
-          {/* resize handle */}
+          {/* 右下角尺寸调整手柄 */}
           <div className="ask-ai-resize-handle" onMouseDown={onResizeStart} />
         </div>
       )}

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-20T03:35:32.795Z",
-  "chunkCount": 357,
+  "generatedAt": "2026-07-20T06:53:15.067Z",
+  "chunkCount": 376,
   "chunks": [
     {
       "id": "C_C++/C and C++ 优化 keil.md#1",
@@ -809,6 +809,158 @@
       "heading": "五、快速上手 DM 电机控制",
       "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/DM%E7%94%B5%E6%9C%BA%E4%BB%A3%E7%A0%81%E7%A7%BB%E6%A4%8D%E8%AF%B4%E6%98%8E.md",
       "content": "## 五、快速上手 DM 电机控制\n\n```c\n// 1. 使能 Motor1（MIT 模式）\ndm_motor_enable(&hfdcan2, &dm_motor[DM_Motor1]);\n\n// 2. 发送 MIT 控制指令（位置=0, 速度=0, KP=100, KD=5, 扭矩=0）\ndm_motor[DM_Motor1].ctrl.pos_set = 0.0f;\ndm_motor[DM_Motor1].ctrl.vel_set = 0.0f;\ndm_motor[DM_Motor1].ctrl.kp_set  = 100.0f;\ndm_motor[DM_Motor1].ctrl.kd_set  = 5.0f;\ndm_motor[DM_Motor1].ctrl.tor_set = 0.0f;\ndm_motor_ctrl_send(&hfdcan2, &dm_motor[DM_Motor1]);\n\n// 3. 读取反馈数据（在 fdcan2_rx_callback 中自动解析）\nfloat pos = dm_motor[DM_Motor1].para.pos;  // 当前位置\nfloat vel = dm_motor[DM_Motor1].para.vel;  // 当前速度\nfloat tor = dm_motor[DM_Motor1].para.tor;  // 当前扭矩\n\n// 4. 读取电机参数（状态机方式，一次读一个寄存器）\nread_all_motor_data(&dm_motor[DM_Motor1]);\n// 收到回复后 receive_motor_data() 自动存入 .tmp 结构体\n\n// 5. 禁用电机\ndm_motor_disable(&hfdcan2, &dm_motor[DM_Motor1]);\n```"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#1",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "模式配置",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "### 模式配置\n\n```c\nhfdcan1.Instance = FDCAN1;                        // 绑定硬件实例\nhfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;   // 帧格式：经典CAN（非CAN-FD）\nhfdcan1.Init.Mode = FDCAN_MODE_NORMAL;            // 工作模式：正常模式\nhfdcan1.Init.AutoRetransmission = ENABLE;         // 自动重传：使能（发送失败自动重试）\nhfdcan1.Init.TransmitPause = DISABLE;             // 发送暂停：禁用\nhfdcan1.Init.ProtocolException = DISABLE;         // 协议异常处理：禁用\n```"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#2",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "波特率配置",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "### 波特率配置\n\n```c\nhfdcan1.Init.NominalPrescaler = 3;         // 标称波特率预分频器\nhfdcan1.Init.NominalSyncJumpWidth = 10;    // 标称同步跳转宽度\nhfdcan1.Init.NominalTimeSeg1 = 29;         // 标称时间段1（采样点前）\nhfdcan1.Init.NominalTimeSeg2 = 10;         // 标称时间段2（采样点后）\nhfdcan1.Init.DataPrescaler = 3;            // 数据波特率预分频器（CAN-FD用）\nhfdcan1.Init.DataSyncJumpWidth = 10;       // 数据同步跳转宽度\nhfdcan1.Init.DataTimeSeg1 = 29;            // 数据时间段1\nhfdcan1.Init.DataTimeSeg2 = 10;            // 数据时间段2\n```\n\n波特率 = FDCAN时钟频率 / (Prescaler × (1 + SyncJumpWidth + TimeSeg1 + TimeSeg2))\n\n采样点\n\n采样点 = (1 + TimeSeg1) / (1 + SyncJumpWidth + TimeSeg1 + TimeSeg2) × 100%\n      = (1 + 29) / 50 × 100%\n      = 60%\n\n同步跳转宽度\n\n- Phase_Seg1可以向Phase_Seg2\"借\"时间（最多SJW个TQ）\n- Phase_Seg2也可以向Phase_Seg1\"借\"时间（最多SJW个TQ）"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#3",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "消息RAM配置",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "### 消息RAM配置\n\nFDCAN控制器有一块 专用的内部RAM ，用于存储：\n\n- 滤波器配置 ：决定哪些CAN帧可以被接收\n- 接收缓冲区/FIFO ：存储接收到的CAN帧\n- 发送缓冲区/FIFO ：存储待发送的CAN帧\n- 发送事件 ：记录发送完成的状态\n\n三个FDCAN共享同一块消息RAM"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#4",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "滤波器区域（Filter Area）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "##### 滤波器区域（Filter Area）\n\n```c\nhfdcan1.Init.StdFiltersNbr = 1;    // 标准滤波器数量\nhfdcan1.Init.ExtFiltersNbr = 0;    // 扩展滤波器数量\n```\n\n每个标准滤波器占用的空间 ：32位（4字节） 每个扩展滤波器占用的空间 ：64位（8字节）"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#5",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "接收FIFO0",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "##### 接收FIFO0\n\n```c\nhfdcan1.Init.RxFifo0ElmtsNbr = 16;         // 元素数量\nhfdcan1.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_8;  // 每个元素大小\n```\n\n每个FIFO元素的结构 ：\n\n消息头 \t64位（8字节）\t ID、数据长度、时间戳等\n\n数据\t   8~64字节          实际数据（取决于配置）\n\n```\nFIFO0布局（16个元素，每个8字节数据）：\n┌─────────────────────────────────────────────────────────┐\n│ FIFO0元素0: 8字节头 + 8字节数据 = 16字节                  │\n│ FIFO0元素1: 16字节                                       │\n│ ...                                                     │\n│ FIFO0元素15: 16字节                                      │\n└─────────────────────────────────────────────────────────┘\n\n总大小 = 16 × 16 = 256字节\n```\n\n接收FIFO1和接收FIFO0类似"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#6",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "接收缓冲区（Rx Buffers）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "##### 接收缓冲区（Rx Buffers）\n\nhfdcan1.Init.TxBuffersNbr = 0;  // 禁用"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#7",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "发送FIFO队列（Tx FIFO Queue）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "##### 发送FIFO队列（Tx FIFO Queue）\n\n```c\nhfdcan1.Init.TxFifoQueueElmtsNbr = 8;   // 元素数量\nhfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;  // FIFO模式\nhfdcan1.Init.TxElmtSize = FDCAN_DATA_BYTES_8;            // 每个元素大小\n```\n\n发送FIFO和发送缓冲区的区别 ：\n\n- 发送缓冲区 ：每个缓冲区独立，可以单独请求发送\n- 发送FIFO ：先进先出队列，自动按顺序发送\n\n```\n发送FIFO布局（8个元素，每个8字节数据）：\n┌─────────────────────────────────────────────────────────┐\n│ Tx FIFO元素0: 8字节头 + 8字节数据 = 16字节                │\n│ Tx FIFO元素1: 16字节                                     │\n│ ...                                                     │\n│ Tx FIFO元素7: 16字节                                     │\n└─────────────────────────────────────────────────────────┘\n\n总大小 = 8 × 16 = 128字节\n```"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#8",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "发送事件（Tx Events）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "##### 发送事件（Tx Events）\n\n```c\nhfdcan1.Init.TxEventsNbr = 0;  // 禁用\n```\n\n记录发送完成的事件，用于中断通知\n\n发送RAM总内存计算\n\n1. 滤波器区域：\n   标准滤波器: 1 × 4字节 = 4字节\n   扩展滤波器: 0 × 8字节 = 0字节\n   滤波器区域总大小: 4字节\n\n2. 接收FIFO0：\n   每个元素: 8字节头 + 8字节数据 = 16字节\n   16个元素: 16 × 16 = 256字节\n\n3. 接收FIFO1：0字节\n\n4. 接收缓冲区：0字节\n\n5. 发送缓冲区：0字节\n\n6. 发送FIFO队列：\n   每个元素: 8字节头 + 8字节数据 = 16字节\n   8个元素: 8 × 16 = 128字节\n\n7. 发送事件：0字节\n\nFDCAN1总占用 = 4 + 256 + 128 = 388字节\n\n但实际上HAL库会有一些对齐和预留，所以实际占用是853字节"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#9",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "Offset",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "##### Offset\n\n一般直接把消息RAM直接等分给3个FD_CAN\n\n或者根据利用率自行分配\n\n```c\nhfdcan1.Init.MessageRAMOffset = 0;\nhfdcan2.Init.MessageRAMOffset = 853;\nhfdcan3.Init.MessageRAMOffset = 1706;\n```\n\nOffset必须是4的倍数（32位对齐） 不能出现重叠（即不同的FD_CAN公用一块消息RAM）"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#10",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "过滤器配置",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "### 过滤器配置\n\n```c\ncan_filter_init_structure.IdType = FDCAN_STANDARD_ID;      // 标准ID模式\ncan_filter_init_structure.FilterIndex = 0;                 // 滤波器索引0\ncan_filter_init_structure.FilterType = FDCAN_FILTER_MASK;  // 掩码模式\ncan_filter_init_structure.FilterConfig = FDCAN_FILTER_TO_RXFIFO0; // 匹配后存入FIFO0\ncan_filter_init_structure.FilterID1 = 0x00000000;          // 过滤ID1 = 0\ncan_filter_init_structure.FilterID2 = 0x00000000;          // 过滤掩码 = 0\n```\n\n配置的全通\n\n(收到的ID) & (FilterID2) == (FilterID1) & (FilterID2)\n\n- FilterID2 = 0x0000 时， 任何ID都能匹配 （全通）\n- 当 FilterID2 = 0xFFFF 时，只有 FilterID1 指定的ID能通过（精确匹配）"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#11",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "时钟",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "### 时钟\n\n```c\nPeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_FDCAN;\nPeriphClkInitStruct.FdcanClockSelection = RCC_FDCANCLKSOURCE_PLL;\n```\n\nRCC_FDCANCLKSOURCE_PLL \t125MHz（PLL1Q） \t\t高频、高精度 ，适合高速CAN通信\n\nRCC_FDCANCLKSOURCE_HSE \t外部晶振（通常8MHz） \t低频，波特率计算受限"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#12",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "NVIC层中断（硬件级）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "#### NVIC层中断（硬件级）\n\n每个FD_CAN开启了两个中断通道\n\n```c\nHAL_NVIC_SetPriority(FDCAN1_IT0_IRQn, 0, 0);  // 中断优先级最高\nHAL_NVIC_EnableIRQ(FDCAN1_IT0_IRQn);\nHAL_NVIC_SetPriority(FDCAN1_IT1_IRQn, 0, 0);\nHAL_NVIC_EnableIRQ(FDCAN1_IT1_IRQn);\n```\n\nFDCAN1_IT0_IRQn \t\t接收相关 ：FIFO0/1满、接收缓冲区满、过滤器匹配等\n\nFDCAN1_IT1_IRQn \t\t发送/错误相关 ：发送完成、FIFO空、总线错误、仲裁丢失等"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#13",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "HAL层中断通知（软件级）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "#### HAL层中断通知（软件级）\n\n```c\nHAL_FDCAN_ActivateNotification(hfdcan, \n    FDCAN_IT_RX_FIFO0_NEW_MESSAGE |   // 新消息到达FIFO0\n    FDCAN_IT_BUS_OFF |                 // 总线离线\n    FDCAN_IT_ERROR_PASSIVE |           // 错误被动状态\n    FDCAN_IT_ARB_PROTOCOL_ERROR |      // 仲裁协议错误\n    FDCAN_IT_DATA_PROTOCOL_ERROR,      // 数据协议错误\n    0);\n```\n\n| 中断标志                      | 作用       | 触发场景             | 处理方式               |\n| ----------------------------- | ---------- | -------------------- | ---------------------- |\n| FDCAN_IT_RX_FIFO0_NEW_MESSAGE | 新消息到达 | 电机返回状态数据     | 在回调中读取消息并处理 |\n| FDCAN_IT_BUS_OFF              | 总线离线   | CAN 总线短路 / 断路  | 重启 CAN 控制器        |\n| FDCAN_IT_ERROR_PASSIVE        | 错误被动   | 累计错误达到阈值     | 记录错误，准备恢复     |\n| FDCAN_IT_ARB_PROTOCOL_ERROR   | 仲裁协议错 | ID 发送冲突等        | 记录日志               |\n| FDCAN_IT_DATA_PROTOCOL_ERROR  | 数据协议错 | 格式错误、CRC 错误等 | 记录日志               |\n\n两个中断通道"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#14",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "HAL层中断通知（软件级）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "- 处理接收中断通道\n- 处理发送 接收错误的接收中断通道\n\nhal库中断函数的作用  处理硬件和软件之间的关系  分发机制\n\n硬件中断触发\n    │\n    ▼\n进入 FDCAN1_IT0_IRQHandler() 或 FDCAN1_IT1_IRQHandler() 硬件中断层（Hardware） 匹配中断向量表\n    │\n    ▼\n调用 HAL_FDCAN_IRQHandler(&hfdcan1)  HAL库层（Middleware）\n    │\n    ├─► 读取接收中断标志寄存器 (RxITR) \n    │       │\n    │       ├─ FIFO0新消息？→ 调用 HAL_FDCAN_RxFifo0Callback()\t用户代码层（Application） \n    │       ├─ FIFO1新消息？→ 调用 HAL_FDCAN_RxFifo1Callback()\n    │       └─ ...\n    │\n    └─► 读取错误中断标志寄存器 (ErrITR)\n            │\n            ├─ 总线离线？→ 调用 HAL_FDCAN_ErrorStatusCallback()\t用户代码层（Application） \n            ├─ 错误被动？→ 调用 HAL_FDCAN_ErrorStatusCallback()\n            └─ ..."
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#15",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "Receive",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "## Receive\n\n回调函数 callback\n\n```c\nvoid HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)\n{\n    // 判断程序初始化完成\n    if (!init_finished)\n    {\n        // 也得接收, 防止FIFO满\n        if (hfdcan->Instance == FDCAN1)\n        {\n            while (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &CAN1_Manage_Object.Rx_Header, CAN1_Manage_Object.Rx_Buffer) == HAL_OK)\n            {\n\n            }\n        }\n\n        return;\n    }\n\n    // 选择回调函数\n    if (hfdcan->Instance == FDCAN1)\n    {\n        while (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &CAN1_Manage_Object.Rx_Header, CAN1_Manage_Object.Rx_Buffer) == HAL_OK)\n        {\n            CAN1_Manage_Object.Rx_Timestamp = SYS_Timestamp.Get_Current_Timestamp();"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#16",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "Receive",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "if (CAN1_Manage_Object.Callback_Function != nullptr)\n            {\n                CAN1_Manage_Object.Callback_Function(CAN1_Manage_Object.Rx_Header, CAN1_Manage_Object.Rx_Buffer);\n            }\n        }\n    }\n    //这里只用了FDCAN1做演示 FDCAN2和FDCAN4一样的做法\n}\n```\n\n```c\n/**\n * @brief CAN通信处理结构体\n */\nstruct Struct_CAN_Manage_Object\n{\n    FDCAN_HandleTypeDef *CAN_Handler;\n    CAN_Callback Callback_Function;\n    // 与接收相关的数据\n    FDCAN_RxHeaderTypeDef Rx_Header;\n    uint8_t Rx_Buffer[64];\n    // 接收时间戳\n    uint64_t Rx_Timestamp;\n};\n```\n\n```c\nvoid CAN1_Callback(FDCAN_RxHeaderTypeDef &Header, uint8_t *Buffer)\n{\n    switch (Header.Identifier)\n    {\n    case (0x206):\n    {\n        motor.CAN_RxCpltCallback();\n        break;\n    }\n    }\n}\n```"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#17",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "Receive",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "电机发送数据帧：\n┌─────────────────────────────────────────────────┐\n│  ID=0x206 | 数据长度=8 | 数据: [温度][角度][速度]... \t\t\t\t\t\t\t\t\t\t\t\t\t│\n└─────────────────────────────────────────────────┘\n        │\n        ▼\nHAL_FDCAN_GetRxMessage() 解析\n        │\n        ├─→ Header.Identifier = 0x206\n        ├─→ Header.DataLength = 8\n        └─→ Buffer = [温度][角度][速度]...\n        │\n        ▼\nCAN1_Callback(Header, Buffer)\n        │\n        ▼\nswitch (Header.Identifier)  // 判断是0x206\n        │\n        ▼\nmotor.CAN_RxCpltCallback()  // 调用对应电机的处理函数  其实可以删除\n        │\n        ▼\nData_Process(Buffer)  // 解析数据内容  \n\n区分：FIFO 是\"邮箱\"，Buffer 是\"取出来的信\"，每次只处理一封信。"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#18",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "Transmit",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "## Transmit\n\n定时中断发送\n\n```c\nvoid TIM_1ms_CAN_PeriodElapsedCallback()\n{\n    static int mod2 = 0;\n    mod2++;\n    if (mod2 == 2)\n    {\n        mod2 = 0;\n        // CAN_Transmit_Data(&hfdcan2, 0x1fe, CAN2_0x1fe_Tx_Data, 8);  // 被注释\n    }\n\n    CAN_Transmit_Data(&hfdcan1, 0x1fe, CAN1_0x1fe_Tx_Data, 8);  // ← 真正发送！\n}\n```\n\n```c\nuint8_t CAN_Transmit_Data(FDCAN_HandleTypeDef *hfdcan, uint16_t ID, uint8_t *Data, uint16_t Length)\n{\n    FDCAN_TxHeaderTypeDef tx_header;\n    tx_header.Identifier = 0x1fe;           // 发送ID = 0x1FE\n    tx_header.IdType = FDCAN_STANDARD_ID;\n    tx_header.TxFrameType = FDCAN_DATA_FRAME;\n    tx_header.DataLength = 8;                // 8字节\n    // ... 其他配置 ...\n\n    return (HAL_FDCAN_AddMessageToTxFifoQ(hfdcan, &tx_header, Data));  // 加入发送FIFO\n}\n```"
+    },
+    {
+      "id": "嵌入式开发/FD_CAN.md#19",
+      "title": "FD_CAN",
+      "category": "嵌入式开发",
+      "heading": "和Can比较",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/FD_CAN.md",
+      "content": "## 和Can比较\n\nCan协议\n\nFD_Can\n\nCAN FD传输速率是可变的：从控制场中的BRS位到ACK场之前（含CRC分界符）为可变速率，最高速率可达到8Mbps\nCAN FD数据长度不同：CAN FD每个数据帧最多支持64个数据字节，而传统CAN最多支持8个数据字节，这减少了协议开销，并提高了协议效率。\nCAN FD帧格式不同：CanFD新增了FDF、BRS、ESI位\nFDF 位（Flexible Data Rate Format）：原 CAN 数据帧中的保留位 r，用来区别是 CAN 报文还是 CAN-FD 报文，FDF 位常为隐性 1，表示 CAN FD 报文；\nBRS 位（ Bit Rate Switch）：表示位速率转换，当 BRS 为显性位 0时，数据段的位速率与仲裁段的位速率一致（恒定速率），当 BRS 为隐性位 1时速率可变（即 BSR 到 CRC 使用转换速率传输）；\nESI 位（Error State Indicator）：发送节点错误状态指示，主动错误时发送显性位 0 ，被动错误时发送隐性位 1 。"
     },
     {
       "id": "嵌入式开发/IMU零偏校准学习笔记.md#1",

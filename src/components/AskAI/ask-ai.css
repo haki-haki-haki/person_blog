@@ -23,7 +23,7 @@
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
 }
 
-/* Haki Cat icon — custom cat with headset */
+/* Haki 猫形标志 */
 .ask-ai-cat-icon {
   display: inline-block;
   flex-shrink: 0;
@@ -34,7 +34,7 @@
   transform: rotate(-6deg) scale(1.1);
 }
 
-/* title bar: dark cat on white bg — eye stays white, pupil dark */
+/* 标题栏里的猫形标志 */
 .ask-ai-title .ask-ai-cat-icon {
   color: #111;
   --ask-ai-icon-eye: #fff;
@@ -50,7 +50,7 @@
   right: 1.25rem;
   bottom: 8.75rem;
   z-index: 1101;
-  /* width & height now controlled by inline style (resizable) */
+  /* 宽高由内联样式控制，用于支持拖拽调整大小 */
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 18px;
@@ -62,12 +62,12 @@
   transition: box-shadow 0.2s ease;
 }
 
-/* pinned state: stronger shadow + subtle blue border glow */
+/* 置顶状态 */
 .ask-ai-panel.ask-ai-pinned {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(102, 126, 234, 0.35);
 }
 
-/* ---------- header ---------- */
+/* 标题栏 */
 .ask-ai-header {
   padding: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -120,8 +120,8 @@
   color: #111;
 }
 
-/* pinned pin button active style */
-.ask-ai-pinned .ask-ai-header-actions button[aria-label="取消置顶"] {
+/* 置顶按钮激活态 */
+.ask-ai-pinned .ask-ai-pin-btn {
   color: #4452b8;
   background: rgba(102, 126, 234, 0.1);
 }
@@ -139,7 +139,7 @@
   line-height: 1.4;
 }
 
-/* ---------- messages ---------- */
+/* 消息列表 */
 .ask-ai-messages {
   flex: 1;
   overflow-y: auto;
@@ -316,7 +316,7 @@
   cursor: not-allowed;
 }
 
-/* ---------- resize handle ---------- */
+/* 右下角尺寸调整手柄 */
 .ask-ai-resize-handle {
   position: absolute;
   right: 0;
@@ -346,7 +346,7 @@
   border-width: 2.5px;
 }
 
-/* ---------- responsive ---------- */
+/* 响应式 */
 @media (max-width: 640px) {
   .ask-ai-fab {
     right: 1rem;
@@ -361,7 +361,7 @@
     height: min(620px, calc(100vh - 6rem)) !important;
   }
 
-  /* disable resize handle on mobile */
+  /* 移动端不显示尺寸调整手柄 */
   .ask-ai-resize-handle {
     display: none;
   }

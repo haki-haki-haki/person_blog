@@ -37,7 +37,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_ARK_API_KEY_B64: ${{ secrets.VITE_ARK_API_KEY_B64 }}
+          VITE_AI_API_URL: ${{ secrets.VITE_AI_API_URL }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

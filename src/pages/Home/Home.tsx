@@ -2,7 +2,7 @@ import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
 import AsciiBackground from '@/components/AsciiGallery/AsciiGallery';
 import { Link } from 'react-router-dom';
-import { Code, Cpu, Eye, Calculator, Rocket, FileText, BookOpen, Coffee } from 'lucide-react';
+import { Code, Cpu, Eye, Calculator, Rocket, FileText, BookOpen, Coffee, Gamepad2 } from 'lucide-react';
 import { categories } from '@/data/categories';
 import { notes } from '@/data/notes';
 import '@/styles/pages/home.css';
@@ -195,7 +195,19 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA - Play */}
+      <section className="cta-section">
+        <h2>Play</h2>
+        <p>休息一下，玩个小游戏。</p>
+        <div className="cta-buttons">
+          <Link to="/play" className="token-link">
+            <span className="link-prompt">❯</span>
+            <span>cd /play</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* CTA - Life */}
       <section className="cta-section">
         <h2>Life</h2>
         <p>不写代码的时候都在干嘛呢？</p>

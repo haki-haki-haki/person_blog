@@ -1,7 +1,39 @@
-import { Github, Mail, Heart, Coffee } from 'lucide-react';
+import { Github, Mail, Heart, Coffee, ShieldCheck } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import './footer.css';
 
+// 本站首次提交到 GitHub 的时间
+const SITE_BIRTH = new Date('2026-07-18T18:39:22+08:00');
+
+function useUptime() {
+  const [elapsed, setElapsed] = useState('');
+
+  useEffect(() => {
+    const tick = () => {
+      const now = Date.now();
+      const diff = now - SITE_BIRTH.getTime();
+      const totalSeconds = Math.floor(diff / 1000);
+
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      const pad = (n: number) => String(n).padStart(2, '0');
+      setElapsed(`${days}d ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
+    };
+
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return elapsed;
+}
+
 const Footer = () => {
+  const uptime = useUptime();
+
   return (
     <footer className="token-footer">
       <div className="token-footer-inner">
@@ -15,6 +47,12 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
+          <div className="footer-uptime">
+            <ShieldCheck size={14} />
+            <span>本站已安全运行</span>
+            <span className="footer-uptime-value">{uptime}</span>
+          </div>
+
           <div className="footer-links">
             <a href="/">Home</a>
             <a href="/study">Study</a>
