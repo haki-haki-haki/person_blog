@@ -433,11 +433,11 @@ uint8_t CAN_Transmit_Data(FDCAN_HandleTypeDef *hfdcan, uint16_t ID, uint8_t *Dat
 
 Can协议
 
-<img src="file:///D:\QQhistory\Tencent Files\3448790871\nt_qq\nt_data\Pic\2026-07\Ori\bf7913da54521f086bb116456ca28012.png" alt="img" style="zoom: 50%;" />
+<img src="/person_blog/notes-images/can-frame-format.png" alt="经典 CAN 帧格式示意图" style="max-width: 100%;" />
 
 FD_Can
 
-<img src="file:///D:\QQhistory\Tencent Files\3448790871\nt_qq\nt_data\Pic\2026-07\Ori\a67dfb24b28ed2460d9a8d0910144bc0.png" alt="img" style="zoom:50%;" />
+<img src="/person_blog/notes-images/can-fd-frame-format.png" alt="CAN FD 帧格式示意图" style="max-width: 100%;" />
 
 CAN FD传输速率是可变的：从控制场中的BRS位到ACK场之前（含CRC分界符）为可变速率，最高速率可达到8Mbps
 CAN FD数据长度不同：CAN FD每个数据帧最多支持64个数据字节，而传统CAN最多支持8个数据字节，这减少了协议开销，并提高了协议效率。
