@@ -111,6 +111,12 @@ const NoteDetail = () => {
       /!\[([^\]]*)\]\(file:\/\/\/[^)]+\)/gi,
       '<div class="image-placeholder image-external"><span class="placeholder-icon">📁</span><span class="placeholder-text">图片 "$1" 位于本地路径，无法在网页中显示</span></div>'
     );
+    // 将 /notes-images/ 开头的路径自动加上 base URL，适配 GitHub Pages 子路径部署
+    const base = import.meta.env.BASE_URL || '/';
+    processed = processed.replace(
+      /!\[([^\]]*)\]\((\/notes-images\/[^)]+)\)/gi,
+      `![$1](${base.replace(/\/$/, '')}$2)`
+    );
     return processed;
   };
 

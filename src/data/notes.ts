@@ -118,6 +118,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/WWDG.md',
     tags: ['WWDG', 'IWDG', 'STM32', '看门狗'],
   },
+  {
+    id: 'embedded-13',
+    title: 'FDCAN —— 高速CAN通信',
+    category: 'embedded',
+    date: '2025-07-20',
+    summary: 'FDCAN控制器配置详解：经典CAN模式、波特率与采样点计算、消息RAM分配、过滤器配置、中断收发流程，以及与经典CAN帧格式的对比...',
+    filePath: '/notes/embedded/FD_CAN.md',
+    tags: ['FDCAN', 'CAN', 'STM32H7', '通信协议', '中断'],
+  },
   // C/C++
   {
     id: 'cpp-1',
