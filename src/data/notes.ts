@@ -127,6 +127,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/FD_CAN.md',
     tags: ['FDCAN', 'CAN', 'STM32H7', '通信协议', '中断'],
   },
+  {
+    id: 'embedded-14',
+    title: 'DM-H3510 轮毂电机',
+    category: 'embedded',
+    date: '2025-07-20',
+    summary: '记录达妙 DM-H3510 轮毂电机的物料连接、MIT模式、CAN收发信号、电机反馈解析和控制注意事项...',
+    filePath: '/notes/embedded/DM-H3510 轮毂电机.md',
+    tags: ['达妙电机', '轮毂电机', 'CAN', 'MIT模式'],
+  },
   // C/C++
   {
     id: 'cpp-1',
@@ -201,6 +210,15 @@ export const notes: Note[] = [
     summary: '欧拉图的定义、判定条件、Fleury算法和Hierholzer算法求解欧拉回路，以及工程中的应用场景...',
     filePath: '/notes/计算机视觉与数学/欧拉图.md',
     tags: ['欧拉图', '图论', '数学'],
+  },
+  {
+    id: 'vision-2',
+    title: '图论 —— 数字华容道不可解问题初探',
+    category: 'vision',
+    date: '2025-07-20',
+    summary: '从 14-15 数字华容道问题出发，用置换、奇偶性和图论视角解释某些局面为什么无法还原...',
+    filePath: '/notes/计算机视觉与数学/图论_数字华容道不可解问题初探.md',
+    tags: ['图论', '数字华容道', '置换', '数学'],
   },
   // 项目实战
   {
