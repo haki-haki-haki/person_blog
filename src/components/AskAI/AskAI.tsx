@@ -198,11 +198,16 @@ const AskAI = () => {
     setSize({ w: DEFAULT_W, h: DEFAULT_H });
   }, []);
 
-  const arkApiKey = useMemo(() => {
+  // Decode API key at runtime (in useEffect) to prevent esbuild from
+  // inlining the decoded plaintext key into the build output.
+  const [arkApiKey, setArkApiKey] = useState('');
+  useEffect(() => {
+    const b64 = (import.meta.env.VITE_ARK_API_KEY_B64 || '').trim();
+    if (!b64) return;
     try {
-      return atob((import.meta.env.VITE_ARK_API_KEY_B64 || '').trim());
+      setArkApiKey(atob(b64));
     } catch {
-      return '';
+      /* invalid base64 */
     }
   }, []);
 
