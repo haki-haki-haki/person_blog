@@ -136,6 +136,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/DM-H3510 轮毂电机.md',
     tags: ['达妙电机', '轮毂电机', 'CAN', 'MIT模式'],
   },
+  {
+    id: 'embedded-15',
+    title: 'CRC16 校验算法说明',
+    category: 'embedded',
+    date: '2025-07-20',
+    summary: '整理 PC 上位机通信中的 CRC-16/ARC 校验参数、查表法计算流程、接收端校验函数和小端序附加规则...',
+    filePath: '/notes/embedded/CRC16_算法说明.md',
+    tags: ['CRC16', '校验', '通信协议', 'C语言'],
+  },
   // C/C++
   {
     id: 'cpp-1',
@@ -200,6 +209,15 @@ export const notes: Note[] = [
     summary: '第一次尝试做网页的实践记录，从零搭建HTML页面、引入CSS样式、添加交互效果的完整过程...',
     filePath: '/notes/前端开发/网页初尝试.md',
     tags: ['HTML', 'CSS', '入门'],
+  },
+  {
+    id: 'frontend-4',
+    title: 'Frontend HTML 基础笔记',
+    category: 'frontend',
+    date: '2025-07-20',
+    summary: '记录 HTML 基本结构、head/body 标签含义、CSS 引入方式以及从本地 HTML 文件开始搭建网页的基础知识...',
+    filePath: '/notes/前端开发/Frontend_html.md',
+    tags: ['HTML', 'Frontend', 'CSS', '网页基础'],
   },
   // 计算机视觉与数学
   {

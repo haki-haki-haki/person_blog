@@ -14,7 +14,7 @@ export const categories: Category[] = [
     nameEn: 'Embedded',
     icon: '🔌',
     description: 'STM32、ARM、SWD调试、PID控制、IMU传感器、电机驱动、CAN通信等嵌入式技术笔记',
-    noteCount: 14,
+    noteCount: 15,
   },
   {
     id: 'frontend',
@@ -22,7 +22,7 @@ export const categories: Category[] = [
     nameEn: 'Frontend',
     icon: '💻',
     description: 'HTML、CSS、JavaScript、Markdown 语法等前端基础知识学习笔记',
-    noteCount: 3,
+    noteCount: 4,
   },
   {
     id: 'cpp',

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-20T07:06:34.628Z",
-  "chunkCount": 406,
+  "generatedAt": "2026-07-20T15:58:44.768Z",
+  "chunkCount": 427,
   "chunks": [
     {
       "id": "C_C++/C and C++ 优化 keil.md#1",
@@ -467,6 +467,70 @@
       "content": "## 七、学习建议\n\n1. **从基础开始**：先掌握选择器、属性、值的基本概念\n2. **多动手实践**：修改 night.css 中的颜色值，观察变化\n3. **善用开发者工具**：浏览器按F12打开调试器，实时修改样式\n4. **理解盒子模型**：margin、padding、border、content的关系\n5. **学习响应式**：理解 `@media` 媒体查询\n\n---\n\n> **提示**：CSS 不是编程语言，而是样式表语言。它的语法比编程语言简单得多，重点是理解**选择器**和**属性**的作用。"
     },
     {
+      "id": "前端开发/Frontend_html.md#1",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "background",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "## background\n\n```html\n\n  \n    \n    我的第一个网页\n  \n  \n    你好，互联网\n    这是我的第一个网页，现在它还只是一个本地的 HTML 文件。\n  \n\n```"
+    },
+    {
+      "id": "前端开发/Frontend_html.md#2",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "<> tag 标签",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "### <> tag 标签\n\n```html\n\nlang标签的属性 language\n```\n\n 与  之间放的是辕信息，不会直接显示在页面上\n\n 与  标签里面的内容是页面的身体，会显示"
+    },
+    {
+      "id": "前端开发/Frontend_html.md#3",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "add CSS",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "## add CSS\n\n 与  之间的代码格式叫做CSS 修改格式\n\n```css\n\n      body {\n        background-color: #f0f4f8;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        height: 100vh;\n        margin: 0;\n        font-family: sans-serif;\n      }\n\n      .card {\n        background: white;\n        padding: 40px;\n        border-radius: 12px;\n        text-align: center;\n        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n      }\n\n      h1 {\n        color: #2c3e50;\n        margin-bottom: 12px;\n      }\n\n      p {\n        color: #666;\n      }\n\n      button {\n        margin-top: 20px;\n        padding: 10px 24px;\n        background-color: #3498db;\n        color: white;\n        border: none;\n        border-radius: 6px;\n        cursor: pointer;\n        font-size: 16px;\n      }\n\n      button:hover {\n        background-color: #2980b9;\n      }\n\n```\n\n将他放到原来html代码的title的下面一行\n添加绑定容器\n\n```html"
+    },
+    {
+      "id": "前端开发/Frontend_html.md#4",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "add CSS",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "你好，互联网\n      这是我的第一个网页，现在它有了一点样式。\n\n```\n\n浏览器 `` 标签是 `card` 类，用 css 里面的 `.card` 样式定义来显示页面。"
+    },
+    {
+      "id": "前端开发/Frontend_html.md#5",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "JavaScript",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "## JavaScript\n\nadd button\n\n先添加按钮 在加入一段脚本\n\n```html\n  \n    \n      你好，互联网\n      这是我的第一个网页，现在它有了一点样式。\n      点我试试  \n    \n    \n      function changeText() {\n        document.getElementById('msg').textContent = '你刚刚触发了一段 JavaScript。';\n      }\n    \n  \n\n```"
+    },
+    {
+      "id": "前端开发/Frontend_html.md#6",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "三层分工",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "## 三层分工\n\n- HTML\t`` 里的标签\t内容和结构：页面上有什么东西，怎么组织\n- CSS       块         样式和外观：这些东西长什么样\n- JavaScript  块      行为和交互：发生了什么事，应该做什么"
+    },
+    {
+      "id": "前端开发/Frontend_html.md#7",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "style.css",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "#### **`style.css`**\n\n**把 `index.html` 里 `` 标签之间的内容，完整复制到 `style.css` 里：**然后，回到 `index.html`，把整个 `...` 块删掉，替换成下面这一行，放在同样的位置（`` 之前）：\n\n```css\n    \n\n```\n\n`href` 是文件路径，`style.css` 没有任何斜杠前缀"
+    },
+    {
+      "id": "前端开发/Frontend_html.md#8",
+      "title": "Frontend_html",
+      "category": "前端开发",
+      "heading": "JavaScript .js",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Frontend_html.md",
+      "content": "#### JavaScript .js\n\n**新建一个文件，命名为 `script.js`：**\n\n**把 `index.html` 里 `` 标签之间的内容，复制到 `script.js` 里：**\n\n`script.js` 里的内容应该是这样的：\n\n```javascript\nfunction changeText() {\n  document.getElementById('msg').textContent = '你刚刚触发了一段 JavaScript。';\n}\n\n```\n\n然后回到 `index.html`，把整个 `...` 块删掉，替换成：\n\n```html\n    \n\n```\n\n去引入一个脚本文件，文件名叫 `script.js`，它在同一个文件夹里。"
+    },
+    {
       "id": "前端开发/Markdown 语法学习笔记.md#1",
       "title": "Markdown 语法学习笔记",
       "category": "前端开发",
@@ -593,6 +657,110 @@
       "heading": "端口",
       "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/%E7%BD%91%E9%A1%B5%E5%88%9D%E5%B0%9D%E8%AF%95.md",
       "content": "### 端口\n\n一台服务器不止有一个服务。它可能同时运行好几个服务，因此需要端口（一台电脑的不同入口）。一个服务器在同一个IP地址上可以开多个端口。\n\n常见端口：\n\n- 80 与普通网页相关\n- 443和HTTPS加密访问有关\n\n访问http://xxxx.com 就是在请求服务器的90端口\n\n访问https://xxxx.com 就是在请求服务器443端口"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#1",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "CRC16 算法说明（pcclient.c）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "# CRC16 算法说明（pc_client.c）\n\n本工程 PC 上位机通信使用 **CRC-16/ARC** 校验。\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#2",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "一、CRC 参数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "## 一、CRC 参数\n\n| 参数       | 值                            |\n|------------|-------------------------------|\n| 多项式     | `0x8005`（反向 `0xA001`）     |\n| 初值       | `0xFFFF`                      |\n| 反射输入   | 是                            |\n| 反射输出   | 是                            |\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#3",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "二、代码结构",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "## 二、代码结构\n\n```\nwCRC_Table_PC[256]                 ← 256 项常量表\n        │\n        ├──> Get_CRC16_Check_Sum_PC()        ← 计算 CRC\n        │         │\n        │         ├──> Verify_CRC16_Check_Sum_PC()  ← 接收端校验\n        │         └──> Append_CRC16_Check_Sum_PC()  ← 附加 CRC（未使用）\n```\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#4",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "三、常量表",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "## 三、常量表\n\n```c\nstatic const uint16_t wCRC_Table_PC[256] = {\n    0x0000, 0xC0C1, 0xC181, 0x0140, ...\n};\n```\n\n- 索引：0 ~ 255（一个字节的全部取值）\n- 值：16 位 CRC 变换量\n- 占用：512 字节 ROM\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#5",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "四、核心函数 GetCRC16CheckSumPC",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "## 四、核心函数 Get_CRC16_Check_Sum_PC\n\n```c\nuint16_t Get_CRC16_Check_Sum_PC(uint8_t *pchMessage, uint32_t dwLength, uint16_t wCRC)\n{\n    uint8_t chData;\n    if (pchMessage == NULL) return 0xFFFF;\n    while (dwLength--) {\n        chData = *pchMessage++;\n        wCRC = (wCRC >> 8) ^ wCRC_Table_PC[(wCRC ^ chData) & 0xFF];\n    }\n    return wCRC;\n}\n```\n\n**核心一行拆解**：\n\n```c\nwCRC = (wCRC >> 8) ^ wCRC_Table_PC[(wCRC ^ chData) & 0xFF];\n//      └─────┬────┘   └────────────┬────────┘\n//      CRC 右移 8 位    索引 = (CRC ^ 字节) & 0xFF\n//                        查表得到 16 位变换量\n//      两者异或 = 新 CRC\n```\n\n**为什么要循环**：CRC 是串行算法，每字节依赖前一字节的结果，必须逐字节累积。\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#6",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "五、接收端校验函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "## 五、接收端校验函数\n\n```c\nuint32_t Verify_CRC16_Check_Sum_PC(uint8_t *pchMessage, uint32_t dwLength)\n{\n    uint16_t wExpected = Get_CRC16_Check_Sum_PC(pchMessage, dwLength - 2, 0xFFFF);\n    return ((wExpected & 0xFF) == pchMessage[dwLength - 2] &&\n            ((wExpected >> 8) & 0xFF) == pchMessage[dwLength - 1]);\n}\n```\n\n**流程**：对数据部分重算 CRC，与末尾 2 字节比对，相同返回 1。\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#7",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "6.1 帧格式",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "### 6.1 帧格式\n\n```\n[0xAA][0x55][ver][type][seq][len][payload...][crc_lo][crc_hi]\n └─SOF─┘  └──────── CRC 范围 ──────────────┘  └──CRC──┘\n```\n\n- CRC 范围：`ver` 到 `payload` 末尾（不含 SOF 和 CRC 自身）\n- 小端序追加"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#8",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "6.2 发送端",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "### 6.2 发送端\n\n```c\nuint16_t crc = Get_CRC16_Check_Sum_PC(tx_buf + 2, total_len - 2, 0xFFFF);\ntx_buf[total_len]     = crc & 0xFF;          // 低字节\ntx_buf[total_len + 1] = (crc >> 8) & 0xFF;   // 高字节\nHAL_UART_Transmit(&huart1, tx_buf, total_len + 2, 1000);\n```"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#9",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "6.3 接收端",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "### 6.3 接收端\n\n```c\nif (Verify_CRC16_Check_Sum_PC(buf + 2, hdr->len + 6) == 0) {\n    dart_crc_fail++;\n    return;  // 校验失败丢弃\n}\n// 校验通过后解析 payload\n```\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#10",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "七、逐位计算 1 字节 CRC（对照参考）",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "## 七、逐位计算 1 字节 CRC（对照参考）\n\n查表法把 8 次 bit 运算压缩成 1 次查表。以下是等价的逐位实现：\n\n```c\nuint16_t crc_byte_bitwise(uint16_t crc, uint8_t chData)\n{\n    uint8_t i;\n    for (i = 0; i >= 1;                               // CRC 右移\n        if (bit) crc ^= 0xA001;                  // 判定为 1 则异或多项式\n        chData >>= 1;                             // 字节右移\n    }\n    return crc;\n}\n```\n\n**验证**：`crc = 0xFFFF, chData = 0x01`\n\n| 方法     | 结果     |\n|----------|----------|\n| 查表法   | `0x807E` |\n| 逐位法   | `0x807E` |\n\n两者完全等价。\n\n---"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#11",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "8.1 调用链路",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "### 8.1 调用链路\n\n```\n┌─────────────── 业务层 ───────────────┐\n│ ClientTask                            │\n│   ├── Dart_SendSystemStatus           │  100ms 周期上报系统状态\n│   ├── Dart_SendMotorStatus            │  50ms 周期上报电机状态\n│   ├── Dart_SendlauncherStatus         │  100ms 周期上报发射机构状态\n│   └── Dart_SendFrame (0x02)           │  心跳应答\n└───────────────────────────────────────┘\n                  ↓ 都调用\n┌─────────────── 协议层 ───────────────┐\n│ Dart_SendFrame(type, seq, payload, len) │\n│   ├── 拼帧头 + payload                  │\n│   ├── Get_CRC16_Check_Sum_PC  ← 计算 CRC │\n│   └── HAL_UART_Transmit          ← 发送 │\n└───────────────────────────────────────┘\n\n┌─────────────── 接收端 ───────────────┐\n│ USART1_IRQHandler (DMA 空闲中断)     │\n│   └── Dart_Read_Data                  │\n│         └── Verify_CRC16_Check_Sum_PC ← 校验 CRC\n└───────────────────────────────────────┘\n```"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#12",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "8.2 实际调用代码",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "### 8.2 实际调用代码\n\n**发送端**（`pc_client.c:19 Dart_SendFrame`）：\n\n```c\n// 所有业务发送函数最终都走这里\nvoid Dart_SendFrame(uint8_t type, uint8_t seq, void *payload, uint8_t len)\n{\n    /* 拼接帧头 + payload */\n    memcpy(tx_buf, &header, sizeof(header));\n    memcpy(tx_buf + sizeof(header), payload, len);\n\n    /* 计算 CRC */\n    uint16_t crc = Get_CRC16_Check_Sum_PC(tx_buf + 2, total_len - 2, CRC_INIT);\n\n    /* 追加到末尾并发送 */\n    tx_buf[total_len]     = crc & 0xFF;\n    tx_buf[total_len + 1] = (crc >> 8) & 0xFF;\n    HAL_UART_Transmit(&huart1, tx_buf, total_len + 2, 1000);\n}\n```\n\n**接收端**（`pc_client.c:121 Dart_Read_Data`）：\n\n```c\nvoid Dart_Read_Data(uint8_t *buf)\n{\n    if (buf[0] != FRAME_SOF1 || buf[1] != FRAME_SOF2) return;\n\n    DartFrameHeader_t *hdr = (DartFrameHeader_t *)buf;\n\n    /* CRC 校验：失败直接丢弃 */\n    if (Verify_CRC16_Check_Sum_PC(buf + 2, hdr->len + 6) == 0) {\n        dart_crc_fail++;\n        return;\n    }"
+    },
+    {
+      "id": "嵌入式开发/CRC16_算法说明.md#13",
+      "title": "CRC16_算法说明",
+      "category": "嵌入式开发",
+      "heading": "8.3 调用场景汇总",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
+      "content": "### 8.3 调用场景汇总\n\n| 函数                          | 调用位置              | 作用                |\n|-------------------------------|----------------------|---------------------|\n| `Get_CRC16_Check_Sum_PC`      | `Dart_SendFrame`     | 发送前计算 CRC      |\n| `Verify_CRC16_Check_Sum_PC`   | `Dart_Read_Data`     | 接收后校验 CRC      |\n| `Append_CRC16_Check_Sum_PC`   | 无                   | 已封装但工程未使用   |"
     },
     {
       "id": "嵌入式开发/DM-H3510 轮毂电机.md#1",
