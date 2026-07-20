@@ -199,7 +199,11 @@ const AskAI = () => {
   }, []);
 
   const arkApiKey = useMemo(() => {
-    return (import.meta.env.VITE_ARK_API_KEY || '').trim();
+    try {
+      return atob((import.meta.env.VITE_ARK_API_KEY_B64 || '').trim());
+    } catch {
+      return '';
+    }
   }, []);
 
   const ARK_BASE = 'https://ark.cn-beijing.volces.com/api/v3';
