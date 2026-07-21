@@ -22,7 +22,7 @@ export const categories: Category[] = [
     nameEn: 'Frontend',
     icon: '💻',
     description: 'HTML、CSS、JavaScript、Markdown 语法等前端基础知识学习笔记',
-    noteCount: 4,
+    noteCount: 5,
   },
   {
     id: 'cpp',

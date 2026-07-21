@@ -228,6 +228,15 @@ export const notes: Note[] = [
     filePath: '/notes/前端开发/Frontend_html.md',
     tags: ['HTML', 'Frontend', 'CSS', '网页基础'],
   },
+  {
+    id: 'frontend-5',
+    title: '前端构建',
+    category: 'frontend',
+    date: '2025-07-21',
+    summary: '记录前端构建工具 Vite 的使用流程：Node.js 环境安装、npm 初始化、Vite 安装与配置、开发服务器热更新、build 打包与 hash 指纹、preview 本地预览、npm run scripts 简写命令，以及 .gitignore 和 npm 依赖管理...',
+    filePath: '/notes/前端开发/前端构建.md',
+    tags: ['Vite', 'npm', 'Node.js', '构建工具', '打包'],
+  },
   // 计算机视觉与数学
   {
     id: 'vision-1',
