@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-20T15:58:44.768Z",
-  "chunkCount": 427,
+  "generatedAt": "2026-07-21T07:48:07.038Z",
+  "chunkCount": 445,
   "chunks": [
     {
       "id": "C_C++/C and C++ 优化 keil.md#1",
@@ -761,6 +761,150 @@
       "heading": "8.3 调用场景汇总",
       "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/CRC16_%E7%AE%97%E6%B3%95%E8%AF%B4%E6%98%8E.md",
       "content": "### 8.3 调用场景汇总\n\n| 函数                          | 调用位置              | 作用                |\n|-------------------------------|----------------------|---------------------|\n| `Get_CRC16_Check_Sum_PC`      | `Dart_SendFrame`     | 发送前计算 CRC      |\n| `Verify_CRC16_Check_Sum_PC`   | `Dart_Read_Data`     | 接收后校验 CRC      |\n| `Append_CRC16_Check_Sum_PC`   | 无                   | 已封装但工程未使用   |"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#1",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "帧头",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "### 帧头\n\n```c\ntypedef __packed struct {\n    uint8_t  sof1;   // 0xAA 固定魔数，用来找帧头\n    uint8_t  sof2;   // 0x55\n    uint8_t  ver;    // 协议版本号，便于以后升级\n    uint8_t  type;   // 命令类型（0x01心跳、0x10模式控制...）\n    uint8_t  seq;    // 序号，配对请求和响应\n    uint8_t  len;    // 后面 payload 的字节数\n} DartFrameHeader_t;\n```\n\nseq 单字节帧序列号\n\n1. 请求  应答匹配\n\n   上位机发送帧 seq = x 下位机收到回应帧 seq = 5\n\n2. 丢吧检测\n\n   seq = 上一次seq + 1\n\n3. 过滤重复包"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#2",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "完整帧",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "### 完整帧\n\n```c\n#define DART_MAX_PAYLOAD_SIZE 128\ntypedef __packed struct {\n    DartFrameHeader_t header;\n    uint8_t           payload[128];\n    uint16_t          crc16;\n} DartFrame_t;\n```"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#3",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "payload 数据段",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "### payload 数据段\n\n和type关系\n\n```c\n//Playload \t 帧头 type=0x10 时，payload 是 CmdModeControl_t\ntypedef __packed struct {\n    uint8_t mode;       // ← 这个 mode 字段填什么？就用下面的枚举\n    uint8_t reserved[3];//保留位\n} CmdModeControl_t;\n\n//Type   mode 字段的取值字典\ntypedef enum {\n    DART_STOP=0x00,     // mode=0 表示停止\n    DART_MANUAL=0x01,   // mode=1 表示手动\n    DART_AUTO=0x02      // mode=2 表示自动\n} DART_state_t;\n```"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#4",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartCommInfot",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "### DartCommInfo_t\n\n实例 一般一个\n\n```c\nDartCommInfo_t DART1 = {0}; \n```\n\n本质作用 ：把整个上位机通信相关的所有状态集中在一个地方管理，让协议层、业务层、其他任务之间有一个 统一的交换枢纽。\n\n既有接收端的处理，记录前一次接收和当前接收之后解析的一些状态，也有向上位机的上报，还有给其他任务的标志位。\n\n---\n\n一块共享数据结构解耦协议层和业务层"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#5",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartSendFrame",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "### Dart_SendFrame\n\n```c\nvoid Dart_SendFrame(uint8_t type, uint8_t seq, void *payload, uint8_t len)\n{\n    uint8_t tx_buf[256];\n    DartFrameHeader_t header = { 0xAA, 0x55, 1, type, seq, len };\n    memcpy(tx_buf, &header, sizeof(header));           // 1.塞帧头\n    if (len > 0 && payload) memcpy(tx_buf+sizeof(header), payload, len); // 2.塞payload\n    // 3. 算 CRC（从 ver 字段开始算）\n    uint16_t crc = Get_CRC16_Check_Sum_PC(tx_buf+2, total_len-2, CRC_INIT);\n    tx_buf[total_len]   = crc & 0xFF;                  // 4.小端塞CRC\n    tx_buf[total_len+1] = (crc >> 8) & 0xFF;\n    HAL_UART_Transmit(&huart1, tx_buf, total_len+2, 1000); // 5.发送\n}\n```"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#6",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "业务发送函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "#### 业务发送函数\n\n本质上是playload 的组织 最终都要走 Dart_SendFrame 来最终的发送\n\n形参一般都是结构体和状态标志位 \n\n反馈状态\n\n```c\nvoid Dart_SendSystemStatus(uint8_t dart_status, uint8_t dev_mode,\n                           uint8_t current_stage, uint8_t dart_number)\n{\n    RespSystemStatus_t status;        // ① 在栈上开一个结构体变量\n    static uint8_t seq = 0;\n\n    status.dart_status   = dart_status;        // ② 填字段\n    status.dev_mode      = dev_mode;\n    status.current_stage = current_stage;\n    status.dart_number   = dart_number;\n    status.reserved[0]   = 0;\n    status.reserved[1]   = 0;\n\n    Dart_SendFrame(0x20, seq++, &status, sizeof(status));  // ③ 把地址传进去\n}\n```\n\n反馈电机\n\n结构体是bs_can里面定义的接收的结构体\n\n```c\nvoid Dart_SendMotorStatus(uint8_t motor_id, MOTOR_RECEIVE_DATA *motor, ...)\n{\n    RespMotorStatus_t status;                    // ① 开结构体"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#7",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "业务发送函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "status.motor_id     = motor_id;              // ② 填字段\n    status.temperature  = (int8_t)motor->motor_temputer_fdb;\n    status.electric     = motor->motor_current_fdb;\n    status.speed        = motor->motor_speed_fdb;\n    status.angle        = motor->motor_angle_fdb;\n    status.abs_angle    = (int32_t)angle->angle;\n\n    Dart_SendFrame(0x23, seq++, &status, sizeof(status));  // ③ 传地址+大小\n}\n```"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#8",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartReadData",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "### Dart_Read_Data\n\n接收函数 协议解析 \n\n```c\n/* ==================== 接收解析函数 ==================== */\nint resp1;\nint heartbeat_count;\nvoid Dart_Read_Data(uint8_t *buf)\n{\n    dart_read_called++;\n\n    // 1. 帧头检查\n    if (buf[0] != FRAME_SOF1 || buf[1] != FRAME_SOF2) {\n        dart_sof_fail++;\n        return;\n    }\n\n    DartFrameHeader_t *hdr = (DartFrameHeader_t *)buf;\n\n    // 2. 计算整帧长度：帧头(6) + payload(len) + CRC16(2)\n    uint16_t frame_len = sizeof(DartFrameHeader_t) + hdr->len + 2;\n\n    // 3. 边界检查：防止越界（假设缓冲区至少 256 字节）\n    if (frame_len > 256) {\n        return;\n    }\n\n    // 4. CRC16 校验（从 ver 到 payload 末尾，不包括 CRC 自身）\n    //    Verify_CRC16_Check_Sum 期望传入长度 = 数据长度 + 2（CRC本身）\n    //    这里传入 frame_len - 2，函数内部会取出最后2字节作为CRC比较\n    if (Verify_CRC16_Check_Sum_PC(buf + 2, hdr->len + 6) == 0) {\n        dart_crc_fail++;\n        return;\n    }"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#9",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartReadData",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "// 5. 版本检查（文档要求返回错误，但为避免干扰调试，先注释）\n    if (hdr->ver != 1) {\n        Dart_SendError(hdr->type, ERR_VERSION, 0);\n        return;\n    }\n\n    // 6. 根据 type 处理 payload\n    uint8_t *payload_start = buf + sizeof(DartFrameHeader_t);\n    switch (hdr->type) {\n        case 0x01: // 心跳请求（无 payload）\n        {\n           heartbeat_count++;\n           DART1.last_type = 0x01;\n           DART1.frame_received = 1;\n           break;\n        }\n\n        case 0x10: // 模式控制\n\n            if (hdr->len type;\n            DART1.last_seq  = hdr->seq;\n            DART1.frame_received = 1;\n            break;\n\n        case 0x11: // 开发者模式\n            if (hdr->len type;\n            DART1.last_seq  = hdr->seq;\n            DART1.frame_received = 1;\n\t\t\t\t    switch(DART1.last_command.cmd_dev.enable)\n\t\t\t\t\t {\n\t\t\t\t\t\t\tcase DEV_ENABLE:\n\t\t\t\t\t\t\tDART1.dev_mode=0;"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#10",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartReadData",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "case DEV_DISABLE:\n\t\t\t\t\t\t\tDART1.dev_mode=1;\n\t\t\t\t\t\t}\n            break;\n\n        case 0x12: // 阶段控制\n            if (hdr->len type;\n            DART1.last_seq  = hdr->seq;\n            DART1.frame_received = 1;\n\t\t\t\t    switch(DART1.last_command.cmd_stage.action)\n\t\t\t\t\t {\n\t\t\t\t\t\t\tcase 0x00:\n\t\t\t\t\t\t\tDART1.stage_flag=CHANGE_DONE;\n\t\t\t\t\t\t  break;\n\n\t\t\t\t\t\t  case 0X01:\n\t\t\t\t\t\t\tDART1.stage_flag=CHANGE_RESET;\n\t\t\t\t\t\t\tbreak;\n\n\t\t\t\t\t\t\tdefault:\n              DART1.stage_flag=CHANGE_NOT;\n\t\t\t\t\t\t}\n            break;\n\n        case 0x13: // 动作控制\n\t\t\t\t{\n            if (hdr->len type;\n            DART1.last_seq  = hdr->seq;\n            DART1.frame_received = 1;\n\t\t\tswitch (DART1.last_command.cmd_action.action)\n           {\n              case ACTION_FIRE:\n                   DART1.action_flag = ACTION_FIRE;\n                   break;"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#11",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartReadData",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "case ACTION_AIM_UP:\n                   DART1.action_flag = ACTION_AIM_UP;\n                   break;\n\n              case ACTION_AIM_DOWN:\n                   DART1.action_flag = ACTION_AIM_DOWN;\n                   break;\n\n              case ACTION_LR:\n                   if (DART1.last_command.cmd_action.value == DIR_RIGHT)\n                       DART1.action_flag = ACTION_LR;\n                   else if (DART1.last_command.cmd_action.value == DIR_LEFT)\n                       DART1.action_flag = ACTION_LR;\n                       DART1.dir_flag = (uint8_t)DART1.last_command.cmd_action.value;\n                   break;"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#12",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartReadData",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "default:\n                   DART1.action_flag = ACTION_NONE;\n                   break;\n            }\n            break;\n\t\t\t\t}\n        case 0x14: // 四发飞镖参数命令 (v1.1)\n        {\n            if (hdr->len dart_count != 4) {\n                Dart_SendError(hdr->type, ERR_PARAM, 0);\n                return;\n            }\n            memcpy(&DART1.last_command.cmd_dart_param, payload_start, sizeof(CmdDartParam_t));\n            DART1.last_type = hdr->type;\n            DART1.last_seq  = hdr->seq;\n            DART1.frame_received = 1;\n            break;\n        }\n\n        default:\n            Dart_SendError(hdr->type, ERR_INVALID_CMD, 0);\n            break;\n    }\n\n    // 7. 粘包处理：检查是否还有下一帧\n    if (frame_len SR & UART_FLAG_IDLE)\n    {\n        res = res;\n        res = USART1->SR;\n        res = USART1->DR;"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#13",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "DartReadData",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "__HAL_DMA_DISABLE(&hdma_usart1_rx);\n        recv_len = 256 - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx);\n\n        /* 先拷贝再重启，顺序不能反 */\n        if (recv_len > 0)\n        {   \n\t\t\t\t\t  frame_interval = HAL_GetTick() - last_recv_tick;\n\t\t\t\t\t  last_recv_tick = HAL_GetTick();\n            memcpy(usart1_rx_temp, DART1.rx_buffer, recv_len);\n            Dart_Read_Data(usart1_rx_temp);\n        }\n\t\t\t\telse\n        {\n            /* 没有收到数据，重置为默认无动作 */\n            DART1.last_command.cmd_action.action = 0x04;\n\t\t\t\t\t  DART1.last_command.cmd_stage.action= 0x04;\n            DART1.frame_received = 0;\n        }\n\n        memset(DART1.rx_buffer, 0, 256);\n        __HAL_DMA_CLEAR_FLAG(&hdma_usart1_rx, DMA_FLAG_TCIF2_6);\n        __HAL_DMA_SET_COUNTER(&hdma_usart1_rx, 256);\n        dma_init_ret=HAL_UART_Receive_DMA(&huart1, DART1.rx_buffer, 256);\n        __HAL_DMA_ENABLE(&hdma_usart1_rx);\n    }\n}\n```\n\n剩下的是查表 计算校验"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#14",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "clienttask.c",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "### client_task.c\n\n调度的作用  大多都是起上报的作用 飞镖上报给上位机自己的各种状态\n\n```c\nvoid ClientTask(void  * argument)\n{\n    uint32_t last_system_tick     = 0;\n    uint32_t last_motor_tick      = 0;"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#15",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "clienttask.c",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "for(;;)\n\t{\n        uint32_t now = HAL_GetTick();\t\t\n\t\t    /* 遥控器在线状态检测 */\n        if (now - RC_last_recv_tick > RC_OFFLINE_TIMEOUT)// 超时则认为离线\n        {\n           RC_recive_flag = 0;  // 超时清零\n         }\t\t\t\t\n        /* 点动超时复位，20ms检查一次 */\n        if (now - last_recv_tick > ACTION_HOLD_TIME)\n        {\n            DART1.action_flag = ACTION_NONE;\n            DART1.dir_flag    = 0;\n\t\t\t\t\t  DART1.stage_flag  = CHANGE_NOT;\n        }\n        /* 心跳应答，收到就回，无需周期限制 */\n        if (DART1.last_type == 0x01 && DART1.frame_received)\n        {\n            RespHeartbeat_t resp;\n            resp.device_state     = 1;\n            resp.protocol_version = 1;\n            resp.uptime_sec       = now / 1000;\n            memset(resp.reserved, 0, 2);\n\t\t\t\t\t  DART1.response=1;\n            Dart_SendFrame(0x02, DART1.last_seq, &resp, sizeof(resp));\n            DART1.frame_received  = 0;\n            DART1.last_type       = 0;\n        }\n        /* 系统状态上报，100ms一次 */\n        if (now - last_system_tick >= 100)\n        {\n            last_system_tick = now;\n            Dart_SendSystemStatus(\n                DART1.sys_status,\n                DART1.dev_mode,\n                DART1.sys_stage,\n                DART1.dart_number\n            );\n\t\t\t\t\t  Dart_SendlauncherStatus(\n\t\t\t\t\t      DART1.launcher_status,\n\t\t\t\t\t      DART1.launcher_stage,\n\t\t\t\t\t      DART1.launcher_motor_status,\n\t\t\t\t\t      DART1.trigger_locked\n\t\t\t\t\t  );\n        }\n        /* 电机状态上报，50ms一次 */\n        if (now - last_motor_tick >= 50)\n        {\n            last_motor_tick = now;\n            Dart_SendMotorStatus(0x03, &dart.motor_rx[M3], &dart.motor_angle[M3], motor_yaw_state_motion);    //M3为yaw电机\n            Dart_SendMotorStatus(0x04, &dart.motor_rx[M4], &dart.motor_angle[M4], motor_pitch_state_motion);  //M4为pitch电机 \n        }\t\t\t\t\t\t\n        osDelay(10);  // 任务最小粒度10ms\n     }\n}"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#16",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "错误码",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "## 错误码\n\n```c\ntypedef enum {\n    ERR_CRC          = 0x01,  // CRC 校验失败\n    ERR_SOF          = 0x02,  // 帧头错误（不是 AA 55）\n    ERR_VERSION      = 0x03,  // 协议版本不对\n    ERR_LENGTH       = 0x04,  // 长度异常\n    ERR_INVALID_CMD  = 0x05,  // 不认识的命令 type\n    ERR_STATE_FORBID = 0x06,  // 当前状态不允许此操作\n    ERR_BUSY         = 0x07,  // 设备忙\n    ERR_PARAM        = 0x08,  // 参数错误\n    ERR_PERMISSION   = 0x09,  // 权限不足\n    ERR_INTERNAL     = 0x0A   // 内部错误\n} ErrorCode_t;\n```\n\n结构体  错误帧的数据段组成\n\n```c\ntypedef __packed struct {\n    uint8_t  ref_type;      // 哪个命令出错\n    uint8_t  error_code;    // 错误码\n    uint16_t detail;        // 错误详情\n} RespError_t;              // 共 4 字节\n```"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#17",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "错误码",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "```c\nvoid Dart_SendError(uint8_t ref_type, uint8_t err_code, uint16_t detail)\n{\n    RespError_t err;\n    err.ref_type   = ref_type;      // 引起错误的原命令 type\n    err.error_code = err_code;      // 错误码\n    err.detail     = detail;        // 错误详情（可选）\n    Dart_SendFrame(0x7F, DART1.last_seq, &err, sizeof(err));\n}\n```\n\n发送错误帧"
+    },
+    {
+      "id": "嵌入式开发/Dart 上位机通信协议.md#18",
+      "title": "Dart 上位机通信协议",
+      "category": "嵌入式开发",
+      "heading": "交互",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/Dart%20%E4%B8%8A%E4%BD%8D%E6%9C%BA%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+      "content": "## 交互\n\nDART1数据来源\n\n写入 1、上位机的解析写入\n\n​\t 2、dart_task and dart_ctrl 写入\n\n读出 1、dart_ctrl控制\n\n​\t 2、协议读出上报"
     },
     {
       "id": "嵌入式开发/DM-H3510 轮毂电机.md#1",

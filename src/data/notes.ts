@@ -145,6 +145,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/CRC16_算法说明.md',
     tags: ['CRC16', '校验', '通信协议', 'C语言'],
   },
+  {
+    id: 'embedded-16',
+    title: 'Dart 上位机通信协议',
+    category: 'embedded',
+    date: '2025-07-21',
+    summary: '整理 Dart 上位机通信协议：帧头结构、完整帧定义、payload 数据段、DartCommInfo_t 共享数据结构、发送与接收处理函数、DMA 空闲中断接收流程、任务调度上报逻辑、错误码定义及 DART1 实例的交互关系...',
+    filePath: '/notes/embedded/Dart 上位机通信协议.md',
+    tags: ['Dart', '上位机', '通信协议', 'STM32', 'UART', 'DMA'],
+  },
   // C/C++
   {
     id: 'cpp-1',
