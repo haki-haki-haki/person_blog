@@ -1,5 +1,6 @@
 import { Github, Mail, Heart, Coffee, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import FlyingFish from '@/components/FlyingFish';
 import './footer.css';
 
 // 本站首次提交到 GitHub 的时间
@@ -84,6 +85,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      <FlyingFish />
     </footer>
   );
 };
