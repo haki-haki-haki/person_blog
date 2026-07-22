@@ -163,6 +163,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/user_lib.md',
     tags: ['C语言', '工具函数', '限幅', '开方', '最小二乘法', '数值计算'],
   },
+  {
+    id: 'embedded-18',
+    title: '快速平方根取倒数',
+    category: 'embedded',
+    date: '2025-07-22',
+    summary: '从牛顿迭代法出发推导快速平方根倒数算法，详解 IEEE754 单精度浮点数存储结构、魔数 0x5f3759df 的数学推导与误差修正...',
+    filePath: '/notes/embedded/快速平方根取倒数.md',
+    tags: ['平方根倒数', '牛顿迭代', 'IEEE754', '魔数', '数值计算', 'C语言'],
+  },
   // C/C++
   {
     id: 'cpp-1',

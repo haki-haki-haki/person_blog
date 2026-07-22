@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-22T13:50:03.724Z",
-  "chunkCount": 478,
+  "generatedAt": "2026-07-22T15:40:17.753Z",
+  "chunkCount": 483,
   "chunks": [
     {
       "id": "C_C++/C and C++ 优化 keil.md#1",
@@ -2849,6 +2849,46 @@
       "heading": "十一、注意事项与安全提醒",
       "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/%E5%A4%A7%E7%96%86DT7%E4%B8%8EDMA%E5%8F%8C%E7%BC%93%E5%86%B2%E5%8C%BA.md",
       "content": "## 十一、注意事项与安全提醒\n\n1. **先开遥控器，后启动飞行器**；着陆后先切断飞行器电源，再关遥控器\n2. 避免遥控器与其他无线设备互相干扰\n3. 遥控器内部有锂电池，**勿置于潮湿、高温、阳光直射环境**\n4. 使用前确保电量充足，低于 **3.5 V** 及时充电\n5. 电压低于 **3.3 V** 遥控器将立刻自动关机\n\n---\n\n> 笔记整理完成，如有错误欢迎指正！"
+    },
+    {
+      "id": "嵌入式开发/快速平方根取倒数.md#1",
+      "title": "快速平方根取倒数",
+      "category": "嵌入式开发",
+      "heading": "牛顿迭代",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/%E5%BF%AB%E9%80%9F%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%8F%96%E5%80%92%E6%95%B0.md",
+      "content": "## 牛顿迭代\n\n迭代的次数和所需要的精度有所关系，所以求解的复杂度和精度相关。\n\n如何减少复杂度\n\n牛顿迭代算法\n$$\n\nx_n = x_{n-1} - \\frac{f(x_{n-1})}{f'(x_{n-1})}\r\n$$\n要求平方根的倒数，所以考虑函数 $f(x) = \\frac{1}{x^2} - a$\n\n由牛顿迭代算法可得 $ \\begin{align*} x_n &= x_{n-1} - \\frac{a x_{n-1}^3 - x_{n-1}}{2} \\\\ &= \\frac{3x_{n-1} - a x_{n-1}^3}{2} \\end{align*} $"
+    },
+    {
+      "id": "嵌入式开发/快速平方根取倒数.md#2",
+      "title": "快速平方根取倒数",
+      "category": "嵌入式开发",
+      "heading": "存储形式",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/%E5%BF%AB%E9%80%9F%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%8F%96%E5%80%92%E6%95%B0.md",
+      "content": "## 存储形式\n\n由于与计算机相关，需要先了解float32位浮点数的存储形式，同时需要知道魔数**IEEE754**\n\n```mermaid\ngantt\n    title IEEE754 单精度浮点数(float32)存储结构\n    dateFormat  X\n    axisFormat %s\n\n    section Bit Field\n    S :milestone, s, 0, 0\n    S(1bit) :s1, 0, 1\n    E(8bit) :e1, 1, 9\n    M(23bit):m1, 9, 32\n\n    section Label\n    S label :milestone, after s1, 0\n    E label :milestone, after e1, 0\n    M label :milestone, after m1, 0\n```\n\n- S是符号位，由于开平方，默认0，不必理会\n- E表示阶码，由127的平移表示正负，因此E-127是阶码表示的实际值\n- M表示尾码，表示原二进制浮点数第一个1之后的所有数位，可以认为隐藏了一个1，实际1.xxxxxxx。\n\neg： x = 2.5 将其转化为这样的存储结构\n\n2.5(10)=10.1(2) 十进制转化为二进制\n\n二进制写成科学计数法\t$10.1_{(2)} = 1.01 \\times 2^{1}$\n\n拆分三个字段（S / E / M）\n\n- 符号位 S（1bit）\t正数，\\(S=\\boldsymbol{0}\\)\n- 阶码 E（8bit，偏移量 127）   存储阶码 $(E = 1 + 127 = \\boldsymbol{128})$     128 二进制：`10000000`\n- 尾数位 M（23bit，补齐尾部 0）     \\(M=01\\)，补足 23 位：01000000000000000000000\n\n```\nS      E           M\n0 | 10000000 | 01000000000000000000000\n```"
+    },
+    {
+      "id": "嵌入式开发/快速平方根取倒数.md#3",
+      "title": "快速平方根取倒数",
+      "category": "嵌入式开发",
+      "heading": "算法",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/%E5%BF%AB%E9%80%9F%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%8F%96%E5%80%92%E6%95%B0.md",
+      "content": "## 算法\n\n类比熟知的十进制，可以将浮点数表示为：$y = \\left(1 + \\frac{M}{2^{23}}\\right) \\cdot 2^{E-127}$\n\n对于一个浮点数 $x = \\frac{1}{\\sqrt{a}}$  可以对其取对数\n\n$$ -\\frac{1}{2}\\log_2 a = -\\frac{1}{2}\\left[\\log_2\\left(1 + \\frac{M_a}{2^{23}}\\right) + E_a - 127\\right] $$\n\n可知$\\frac{M_a}{2^{23}} \\in (0,1)$ 所以$\\log_a(1+x) \\approx x + \\epsilon \\quad (\\epsilon \\text{ 为修正值})$\n\n得到\n\n$$ \\log_2 \\frac{1}{\\sqrt{a}} = -\\frac{1}{2}\\left( \\frac{M_a}{2^{23}} + E_a + \\epsilon - 127 \\right) $$ $$ \\log_2 \\frac{1}{\\sqrt{a}} = -\\frac{1}{2}\\left( \\frac{M_a + 2^{23}E_a}{2^{23}} + \\epsilon - 127 \\right) $$\n\n观察$M_a + 2^{23}E_a$ 根据浮点数的存储规则，这部分就是浮点数a强制转化为整数后的表示，这个部分称为Xa ， X和a分别表示联立\n\n$$ \\begin{cases} \\log_2 \\dfrac{1}{\\sqrt{a}} = -\\dfrac{1}{2}\\left( \\dfrac{X_a}{2^{23}} + \\epsilon - 127 \\right) \\\\[6pt] \\log_2 x = \\dfrac{X_x}{2^{23}} + \\epsilon - 127 \\end{cases} $$\n\n化简得到"
+    },
+    {
+      "id": "嵌入式开发/快速平方根取倒数.md#4",
+      "title": "快速平方根取倒数",
+      "category": "嵌入式开发",
+      "heading": "算法",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/%E5%BF%AB%E9%80%9F%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%8F%96%E5%80%92%E6%95%B0.md",
+      "content": "$$ \\frac{X_x}{2^{23}} + \\epsilon - 127 = -\\frac{1}{2}\\left( \\frac{X_a}{2^{23}} + \\epsilon - 127 \\right) $$ $$ X_x = (381 + \\epsilon)2^{23} - \\frac{1}{2}X_a $$\n\n为了修正这个值，使得误差更小，让其在0到1这个区间内的均值为0\n\n$$ \\begin{align*} \\int_{0}^{1}\\log_2(1+x)dx - (x+\\epsilon)dx &= 0 \\\\ \\int_{0}^{1}\\log_2(1+x)dx - \\int_{0}^{1}(x+\\epsilon)dx &= 0 \\\\ \\int_{0}^{1}\\log_2(1+x)dx &= \\int_{0}^{1}(x+\\epsilon)dx \\\\ \\frac{1}{\\ln 2}\\int_{1}^{2}\\ln u\\,du &= \\frac{1}{2}+\\epsilon \\\\ \\frac{1}{\\ln 2}\\left(2\\ln 2 - 1\\right) &= \\frac{1}{2}+\\epsilon \\\\ 2 - \\frac{1}{\\ln 2} &= \\frac{1}{2}+\\epsilon \\\\ \\epsilon &= \\frac{3}{2} - \\frac{1}{\\ln 2} \\end{align*} $$\n\n将$2^{22} \\times (381 - \\epsilon)$十六进制编码为**0x5f3c551d**，这就是这个算法中的魔数，最后进行一次牛顿迭代"
+    },
+    {
+      "id": "嵌入式开发/快速平方根取倒数.md#5",
+      "title": "快速平方根取倒数",
+      "category": "嵌入式开发",
+      "heading": "算法",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/%E5%BF%AB%E9%80%9F%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%8F%96%E5%80%92%E6%95%B0.md",
+      "content": "```c\nfloat Q_rsqrt( float number )\n{\n    long i;\n    float x2, y;\n    const float threehalfs = 1.5F;\n    x2 = number * 0.5F;\n    y  = number;\n    i  = * ( long * ) &y;                       // evil floating point bit level hacking\n    i  = 0x5f3759df - ( i >> 1 );               // what the fuck?\n    y  = * ( float * ) &i;\n    y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration\n//    y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed\n    return y;\n}\n```"
     },
     {
       "id": "工具与部署/git.md#1",
