@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-22T12:50:02.602Z",
-  "chunkCount": 466,
+  "generatedAt": "2026-07-22T13:50:03.724Z",
+  "chunkCount": 478,
   "chunks": [
     {
       "id": "C_C++/C and C++ 优化 keil.md#1",
@@ -593,6 +593,102 @@
       "heading": "双向跳转",
       "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/Markdown%20%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.md",
       "content": "### 双向跳转\n\n语法格式      所写内容[^id]\n\n[^id]:注脚，可以跳转\n\nctrl+鼠标点击 可以跳转\n\n同目录文件：参考资料\n\n下一级  打开\n\n图片和文件一样 只不过[]前面加一个感叹号！"
+    },
+    {
+      "id": "前端开发/React 框架.md#1",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "React 框架",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "# React 框架\n\n构建工具，类似一种翻译的功能，让写的代码翻译成浏览器认识的样子\n\n---\n\n既然构建工具能翻译，那我们是不是可以不再老老实实手写浏览器那套底层 HTML、CSS、JavaScript，而是发明一套写起来更舒服、更高效的新规则？\n\n---\n\n一套前端开发的规则，React（其中的一种），再给构建工具翻译给浏览器运行"
+    },
+    {
+      "id": "前端开发/React 框架.md#2",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "React",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "## React\n\n国内流行Vue，React和Vue都是前端框架，用组件组织页面，有些许不同。React生态大。\n\nReact是一个前端框架，管理UI组件。\n\n核心规则：把一块界面定义成一个组件。\n\n- 数据\n- 结构\n- 样式\n- 行为\n\n组件可以组合，嵌套，小组件合成大组件，大组件拼装成页面，页面被总组件管理。\n\n再次之前是按照文件类型区分不同的功能（HTML结构，CSS样式，JS行为），React管理的则是组件。\n\nVanilla\n\n没有框架的原生写法，原意“香草”\n\n不依赖React，Vue前端框架，只使用浏览器原生支持的HTML，CSS,JavaScript来构建页面。\n\n本质上浏览器无法直接运行React，只能识别HTML,CSS,JavaScript，React还得依靠构建工具，"
+    },
+    {
+      "id": "前端开发/React 框架.md#3",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "安装进项目",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "## 安装进项目\n\n```powershell\nnpm install react react-dom\n```\n\n- `react`：React 本身\n- `react-dom`：让 React 能把组件渲染到网页 DOM 上\n\n插件：帮助Vite翻译React\n\n```powershell\nnpm install -D @vitejs/plugin-react\n```\n\n在项目种新建vite.config.js\n\n```powershell\nimport { defineConfig } from \"vite\";\nimport react from \"@vitejs/plugin-react\";\n\nexport default defineConfig({\n  plugins: [react()],\n});\n\n```\n\n复制进去\n\n作用：将React插件挂在Vite上面。\n\n示例代码\n\n```powershell\ngit clone https://github.com/joylibo/zero-to-tech-demos.git\ncd zero-to-tech-demos/zero-to-tech-4-3\n```"
+    },
+    {
+      "id": "前端开发/React 框架.md#4",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "改成React组件",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "## 改成React组件\n\n以下是单个页面改造成React的组件\n\n先启动\n\n```powershell\ncd ~/zero-to-tech\nnpm run dev\n```\n\n`src/components/`，就先新建这个目录\n\n从 demo 里把 `ResultCard.jsx` 拷到你的项目\n\n`ResultCard.jsx` 是组件本身。它定义了这张卡片是什么、长什么样、挂载后做什么动画。\n\n但组件文件自己不会自动出现在页面上。要把它放到页面里，还需要一个入口文件。\n\n新建入口文件\n\n```powershell\nsrc/result.jsx\n```\n\n写入\n\n```powershell\nimport { createRoot } from \"react-dom/client\";\nimport ResultCard from \"./components/ResultCard.jsx\";\n\ncreateRoot(document.getElementById(\"result-root\")).render();\n```\n\n1. 把 React 的 `createRoot` 引进来。\n\n2. 把 `ResultCard` 组件引进来。\n\n3. 找到页面上 `id=\"result-root\"` 的位置。\n\n4. 把 `ResultCard` 渲染进去。\n\n   组件负责：是什么\t\t\t\t入口负责：挂载在哪里\n\n 在 `text-lab.html` 里留出挂载点  也就是在你之前原本的html那里\n\n找到原来结果区那整段 ``，把它删掉，换成：\n\n```powershell\n\n```\n\n然后在页面底部保留原来的 `js/main.js`，再新加一行：\n\n```powershell\n\n```\n\n挂载点上要保留 `class=\"panel-half\"`\n\n因为页面外层是 CSS Grid 布局，`.panel-half` 决定这一格占半宽。React 组件虽然内部也能写 class，但 CSS Grid 只会对直接子元素生效。"
+    },
+    {
+      "id": "前端开发/React 框架.md#5",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "改成React组件",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "- `#result-root` 负责在原页面里占位置。\n- `ResultCard` 负责画出真正的卡片\n\n此时这个页面就框架化了\n\n```powershell\nnpm run dev\n\n```\n\n可运行"
+    },
+    {
+      "id": "前端开发/React 框架.md#6",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "ResultCard：一个完整的 UI 零件",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "### ResultCard：一个完整的 UI 零件\n\n打开你刚拷进来的 `src/components/ResultCard.jsx`\n\n```c\nimport { useEffect, useRef } from \"react\";\nimport { animate, scrambleText } from \"animejs\";\n\nexport default function ResultCard() {\n  const cardRef = useRef(null);\n  const scoreRef = useRef(null);\n\n  useEffect(() => {\n    // 卡片自己淡入：.card 默认 opacity:0，这张卡负责把自己显出来\n    animate(cardRef.current, {\n      opacity: [0, 1],\n      translateY: [24, 0],\n      duration: 700,\n      ease: \"outBack\",\n    });\n    // 情感分数滚动归位\n    animate(scoreRef.current, {\n      innerHTML: scrambleText({ chars: \"0-9\" }),\n      duration: 1500,\n    });\n  }, []);\n\n  return (\n\n        结果区\n        分析结果\n\n          原文\n          今天的风很轻，适合把脑海里的想法慢慢写下来。\n\n          拼音\n          jīn tiān de fēng hěn qīng …\n\n            情感分数\n            0.86\n\n            情感判断\n            偏积极\n\n  );\n}\n\n```"
+    },
+    {
+      "id": "前端开发/React 框架.md#7",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "ResultCard：一个完整的 UI 零件",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "- `import`：这个组件需要什么，就自己引进来。这里引进了 React 的工具，也引进了 anime.js。\n- `export default`：把这个组件交出去，让别的文件可以使用它。\n- `function ResultCard()`：React 组件本质上就是一个函数。\n- `return (...)`：函数返回一段长得像 HTML 的东西，这种写法叫 JSX。\n- `className`：在 JSX 里，HTML 的 `class` 要写成 `className`。\n- `useEffect`：组件出现在页面上后，执行一次动画逻辑。\n- `ref`：拿到真实 DOM 节点，交给 anime.js 做动画。\n\n这一张卡片里面，已经同时包含了：\n\n- 数据：原文、拼音、情感分数、情感判断。\n- 结构：`return` 里的标签层级。\n- 样式：`className` 指向外部 CSS 里已有的样式规则。\n- 行为：`useEffect` 里的淡入和数字滚动动画。\n\n---\n\n**一个组件，就是把“数据、结构、样式、行为”这一整套，封装成一个能独立拎走的 UI 单元**"
+    },
+    {
+      "id": "前端开发/React 框架.md#8",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "修改整个页面为React",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "## 修改整个页面为React\n\n拷入页面相关组件\n\n```powershell\nsrc/components/Nav.jsx\nsrc/components/PageHeading.jsx\nsrc/components/InputCard.jsx\nsrc/components/AnimatedCardGrid.jsx\nsrc/components/TextLabPage.jsx\n\n```\n\n把原来那 8 个 CSS 文件拷到：src/css/\n\n接下来 `text-lab.html` 会退化成一个挂载点，不再负责用 `` 引入样式。样式会改由 React 入口文件 `import` 进来。\n\n换掉临时入口\n\n新建src/textlab.jsx\n\n```powershell\nimport { createRoot } from \"react-dom/client\";\nimport TextLabPage from \"./components/TextLabPage.jsx\";\n\nimport \"./css/reset.css\";\nimport \"./css/variables.css\";\nimport \"./css/layout.css\";\nimport \"./css/hero.css\";\nimport \"./css/nav.css\";\nimport \"./css/cards.css\";\nimport \"./css/lab.css\";\nimport \"./css/responsive.css\";\n\ncreateRoot(document.getElementById(\"root\")).render(\n\n         {}} />\n\n  ,\n);\n\n```\n\n这里的 `app-shell / page-shell / page-content` 是页面外壳，负责背景、最大宽度、左右留白。\n\n清空 `text-lab.html`\n\n把 `text-lab.html` 的 `` 整块内容，连同底部 script，都换成：\n\n```powershell\n\n```"
+    },
+    {
+      "id": "前端开发/React 框架.md#9",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "修改整个页面为React",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "`` 里那些 CSS `` 也可以删掉，因为 CSS 已经由 `src/textlab.jsx` 引入。\n\n**HTML 从“页面主体”，退化成了“一个挂载点”。**\n\n原来整页内容都写在 HTML 里。现在 HTML 只留一块空地，真正的页面由 React 画出来\n\n 看懂 `TextLabPage`：组件可以嵌套组件\n\n```powershell\nimport Nav from \"./Nav.jsx\";\nimport PageHeading from \"./PageHeading.jsx\";\nimport AnimatedCardGrid from \"./AnimatedCardGrid.jsx\";\nimport InputCard from \"./InputCard.jsx\";\nimport ResultCard from \"./ResultCard.jsx\";\n\nexport default function TextLabPage({ current, onNavigate }) {\n  return (\n\n  );\n}\n\n```\n\n 大写开头的是组件，小写开头的是 HTML 标签\n\n``、``、``、`` 都是我们自己定义的 React 组件。\n\n`` 是普通 HTML 标签。\n\n**组件名必须大写开头。**\n\n- 小写开头：当成浏览器原生 HTML 标签。\n- 大写开头：当成你自己定义的 React 组件。\n\n 组件挂到 HTML，需要入口；组件放进组件，只要写标签\n\n在 `TextLabPage` 里使用 `ResultCard`，只需要：\n\n```powershell\n\n```\n\n- 挂到 HTML：这是 React 世界和真实 DOM 世界的交界，需要 `createRoot`。\n- 放进另一个组件：还在 React 世界内部，写成标签就行\n\n将个人主页也处理交给React  拷贝src/components/HomePage.jsx\n\n将两个页面收录进App\n\n当前有两个页面组件\n\n- `HomePage`\n- `TextLabPage`"
+    },
+    {
+      "id": "前端开发/React 框架.md#10",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "修改整个页面为React",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "将其弄成一个大组件\n\nApp\n\n新建 写入\n\n```powershell\nimport { useState } from \"react\";\nimport HomePage from \"./components/HomePage.jsx\";\nimport TextLabPage from \"./components/TextLabPage.jsx\";\n\nexport default function App() {\n  const [page, setPage] = useState(\"home\");\n\n  return (\n\n          {page === \"home\"\n            ? \n            : }\n\n  );\n}\n\n```\n\n`App` 是整个项目的总管。\n\n它负责记住当前显示哪一页：是 `HomePage`，还是 `TextLabPage`。\n\n旧项目的两个html可以直接删除\n\n- 旧 `index.html` 原来装的是个人主页内容。\n- `text-lab.html` 原来装的是文字实验室内容\n\n因为已经搬进去React组件了\n\n需要新建一个html来挂载  \n\n但是需要先新建main.JSX 写入\n\n```powershell\nimport { StrictMode } from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport App from \"./App.jsx\";\n\nimport \"./css/reset.css\";\nimport \"./css/variables.css\";\nimport \"./css/layout.css\";\nimport \"./css/hero.css\";\nimport \"./css/nav.css\";\nimport \"./css/cards.css\";\nimport \"./css/lab.css\";\nimport \"./css/responsive.css\";"
+    },
+    {
+      "id": "前端开发/React 框架.md#11",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "修改整个页面为React",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "createRoot(document.getElementById(\"root\")).render(\n\n  ,\n);\n\n```\n\n它就是整个 React 项目的总入口：把 `App` 挂进 HTML 的 `#root`。\n\n新建全新的html\n\n```powershell\n\n    Zero to Tech\n\n```\n\n新 `index.html` 是 React 应用的空壳\n\n运行构建\n\n```powershell\nnpm run dev\n```\n\n```powershell\nnpm run build\n```\n\n项目最终骨架\n\n```powershell\nindex.html\n└─ src/main.jsx\n   └─ App.jsx\n      ├─ HomePage.jsx\n      │  ├─ Nav.jsx\n      │  └─ PageHeading.jsx\n      └─ TextLabPage.jsx\n         ├─ Nav.jsx\n         ├─ PageHeading.jsx\n         ├─ InputCard.jsx\n         ├─ ResultCard.jsx\n         └─ AnimatedCardGrid.jsx\n```\n\n- `index.html`：空壳，只提供挂载点。\n- `main.jsx`：入口，把 `App` 挂进去。\n- `App.jsx`：总管，决定当前显示哪个页面。\n- `HomePage` / `TextLabPage`：页面组件。\n- 更小的组件：页面里的零件。"
+    },
+    {
+      "id": "前端开发/React 框架.md#12",
+      "title": "React 框架",
+      "category": "前端开发",
+      "heading": "简化",
+      "path": "/notes/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/React%20%E6%A1%86%E6%9E%B6.md",
+      "content": "## 简化\n\n直接Vite初始化\n\n```powershell\nnpm create vite\n```\n\n按照提示选择：\n\n- 项目名\n- React\n- JavaScript\n\nVite 会直接帮你生成一套 React 项目骨架：`index.html`、`src/main.jsx`、`src/App.jsx`、配置文件等。\n\n如图所示\n\n参考 https://reactbits.dev/get-started/index"
     },
     {
       "id": "前端开发/前端构建.md#1",

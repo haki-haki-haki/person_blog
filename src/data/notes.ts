@@ -246,6 +246,15 @@ export const notes: Note[] = [
     filePath: '/notes/前端开发/前端构建.md',
     tags: ['Vite', 'npm', 'Node.js', '构建工具', '打包'],
   },
+  {
+    id: 'frontend-6',
+    title: 'React 框架',
+    category: 'frontend',
+    date: '2025-07-22',
+    summary: '记录 React 框架学习：构建工具原理、JSX 语法、组件化开发、npm create vite 创建项目、开发服务器热更新、组件导入导出、以及 HTML 引入 JS 模块的方式...',
+    filePath: '/notes/前端开发/React 框架.md',
+    tags: ['React', 'Vite', 'JSX', '组件化', '前端框架'],
+  },
   // 计算机视觉与数学
   {
     id: 'vision-1',
