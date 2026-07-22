@@ -104,10 +104,26 @@ const NoteDetail = () => {
     processed = processed.replace(/\\&quot;/g, '&quot;');
 
     // 将 LaTeX 环境语法（\begin{align*}...\end{align*} 等）转换为 $$...$$ 格式
-    // remark-math 只识别 $...$ 和 $$...$$，不识别 \begin{} 环境
+    // 不管外面包裹的是 $ 还是 $$，一律提取为块级 $$...$$
+    // 分两步：先处理被 $ 包裹的行内情况，再处理独立的
+    // 情况1: $ \begin{align*}... $ → $$ ... $$
     processed = processed.replace(
-      /\\begin\{(align|align\*|equation|equation\*|gather|gather\*|matrix|bmatrix|pmatrix|vmatrix|cases|split|multline|multline\*)\}([\s\S]*?)\\end\{\1\}/g,
-      (match, _env: string, content: string) => {
+      /\$\s*\\begin\{([^}]+)\}([\s\S]*?)\\end\{\1\}\s*\$/g,
+      (_match: string, env: string, content: string) => {
+        return `$$\n${content.trim()}\n$$`;
+      }
+    );
+    // 情况2: $$ \begin{...}... $$ → $$ ... $$（去掉内部的 begin/end 标记）
+    processed = processed.replace(
+      /\$\$\s*\\begin\{([^}]+)\}([\s\S]*?)\\end\{\1\}\s*\$\$/g,
+      (_match: string, _env: string, content: string) => {
+        return `$$\n${content.trim()}\n$$`;
+      }
+    );
+    // 情况3: 独立的 \begin{...}...\end{...}（无 $ 包裹）→ $$ ... $$
+    processed = processed.replace(
+      /(?<!\$)\\begin\{(align\*?|equation\*?|gather\*?|split|multline\*?|cases)\}([\s\S]*?)\\end\{\1\}(?!\$)/g,
+      (_match: string, _env: string, content: string) => {
         return `$$\n${content.trim()}\n$$`;
       }
     );
