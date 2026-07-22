@@ -103,45 +103,7 @@ const NoteDetail = () => {
     processed = processed.replace(/\\&gt;/g, '&gt;');
     processed = processed.replace(/\\&quot;/g, '&quot;');
 
-    // 将 LaTeX 环境语法（\begin{align*}...\end{align*} 等）转换为 $$...$$ 格式
-    // 不管外面包裹的是 $ 还是 $$，一律提取为块级 $$...$$
-    // 分两步：先处理被 $ 包裹的行内情况，再处理独立的
-    // 情况1: $ \begin{align*}... $ → $$ ... $$
-    processed = processed.replace(
-      /\$\s*\\begin\{([^}]+)\}([\s\S]*?)\\end\{\1\}\s*\$/g,
-      (_match: string, env: string, content: string) => {
-        return `$$\n${content.trim()}\n$$`;
-      }
-    );
-    // 情况2: $$ \begin{...}... $$ → $$ ... $$（去掉内部的 begin/end 标记）
-    processed = processed.replace(
-      /\$\$\s*\\begin\{([^}]+)\}([\s\S]*?)\\end\{\1\}\s*\$\$/g,
-      (_match: string, _env: string, content: string) => {
-        return `$$\n${content.trim()}\n$$`;
-      }
-    );
-    // 情况3: 独立的 \begin{...}...\end{...}（无 $ 包裹）→ $$ ... $$
-    processed = processed.replace(
-      /(?<!\$)\\begin\{(align\*?|equation\*?|gather\*?|split|multline\*?|cases)\}([\s\S]*?)\\end\{\1\}(?!\$)/g,
-      (_match: string, _env: string, content: string) => {
-        return `$$\n${content.trim()}\n$$`;
-      }
-    );
-
-    // 保护数学公式块（$$...$$ 和 $...$），避免被后续转义处理破坏
-    const mathBlocks: string[] = [];
-    // 先保护 $$...$$ 块
-    processed = processed.replace(/\$\$[\s\S]*?\$\$/g, (match) => {
-      mathBlocks.push(match);
-      return `@@MATH_BLOCK_${mathBlocks.length - 1}@@`;
-    });
-    // 再保护 $...$ 行内公式
-    processed = processed.replace(/\$[^\n$]+?\$/g, (match) => {
-      mathBlocks.push(match);
-      return `@@MATH_BLOCK_${mathBlocks.length - 1}@@`;
-    });
-
-    processed = processed.replace(/\\([#*\-_~`>\[\](){}|.!])/g, '$1');
+    // 处理本地 file:/// 图片和 /notes-images/ 路径
     processed = processed.replace(
       /<img\s+[^>]*src="file:\/\/\/[^"]*"[^>]*\/?>/gi,
       '<div class="image-placeholder image-external"><span class="placeholder-icon">📁</span><span class="placeholder-text">图片位于本地路径，无法在网页中显示</span></div>'
@@ -156,9 +118,6 @@ const NoteDetail = () => {
       /!\[([^\]]*)\]\((\/notes-images\/[^)]+)\)/gi,
       `![$1](${base.replace(/\/$/, '')}$2)`
     );
-
-    // 恢复数学公式块
-    processed = processed.replace(/@@MATH_BLOCK_(\d+)@@/g, (_, idx) => mathBlocks[parseInt(idx)]);
 
     return processed;
   };
