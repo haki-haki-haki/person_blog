@@ -106,7 +106,7 @@ const NoteDetail = () => {
     // 将 LaTeX 环境（\begin{align*}...\end{align*} 等）转为 $$...$$ 格式
     // remark-math + rehype-katex 只识别 $ 和 $$，不识别 \begin 环境
     processed = processed.replace(
-      /\$?\s*\\begin\{([^}]+)\}([\s\S]*?)\\end\{\1\}\s*\$?/g,
+      /\$\$?\s*\\begin\{([^}]+)\}([\s\S]*?)\\end\{\1\}\s*\$\$?/g,
       (_match: string, env: string, content: string) => {
         const trimmed = content.trim();
         // 对 align 类环境，将 \\ 拆成多行，确保 KaTeX 正确解析
