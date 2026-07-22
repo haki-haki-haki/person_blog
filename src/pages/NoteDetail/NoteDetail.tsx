@@ -103,6 +103,15 @@ const NoteDetail = () => {
     processed = processed.replace(/\\&gt;/g, '&gt;');
     processed = processed.replace(/\\&quot;/g, '&quot;');
 
+    // 将 LaTeX 环境语法（\begin{align*}...\end{align*} 等）转换为 $$...$$ 格式
+    // remark-math 只识别 $...$ 和 $$...$$，不识别 \begin{} 环境
+    processed = processed.replace(
+      /\\begin\{(align|align\*|equation|equation\*|gather|gather\*|matrix|bmatrix|pmatrix|vmatrix|cases|split|multline|multline\*)\}([\s\S]*?)\\end\{\1\}/g,
+      (match, _env: string, content: string) => {
+        return `$$\n${content.trim()}\n$$`;
+      }
+    );
+
     // 保护数学公式块（$$...$$ 和 $...$），避免被后续转义处理破坏
     const mathBlocks: string[] = [];
     // 先保护 $$...$$ 块
