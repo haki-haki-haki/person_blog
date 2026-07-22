@@ -102,6 +102,20 @@ const NoteDetail = () => {
     processed = processed.replace(/\\&lt;/g, '&lt;');
     processed = processed.replace(/\\&gt;/g, '&gt;');
     processed = processed.replace(/\\&quot;/g, '&quot;');
+
+    // 保护数学公式块（$$...$$ 和 $...$），避免被后续转义处理破坏
+    const mathBlocks: string[] = [];
+    // 先保护 $$...$$ 块
+    processed = processed.replace(/\$\$[\s\S]*?\$\$/g, (match) => {
+      mathBlocks.push(match);
+      return `@@MATH_BLOCK_${mathBlocks.length - 1}@@`;
+    });
+    // 再保护 $...$ 行内公式
+    processed = processed.replace(/\$[^\n$]+?\$/g, (match) => {
+      mathBlocks.push(match);
+      return `@@MATH_BLOCK_${mathBlocks.length - 1}@@`;
+    });
+
     processed = processed.replace(/\\([#*\-_~`>\[\](){}|.!])/g, '$1');
     processed = processed.replace(
       /<img\s+[^>]*src="file:\/\/\/[^"]*"[^>]*\/?>/gi,
@@ -117,6 +131,10 @@ const NoteDetail = () => {
       /!\[([^\]]*)\]\((\/notes-images\/[^)]+)\)/gi,
       `![$1](${base.replace(/\/$/, '')}$2)`
     );
+
+    // 恢复数学公式块
+    processed = processed.replace(/@@MATH_BLOCK_(\d+)@@/g, (_, idx) => mathBlocks[parseInt(idx)]);
+
     return processed;
   };
 
