@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-21T13:24:52.191Z",
-  "chunkCount": 457,
+  "generatedAt": "2026-07-22T08:04:15.222Z",
+  "chunkCount": 458,
   "chunks": [
     {
       "id": "C_C++/C and C++ 优化 keil.md#1",
@@ -97,6 +97,14 @@
       "heading": "weak弱函数",
       "path": "/notes/C_C%2B%2B/C%20extra.md",
       "content": "## _weak弱函数\n\n`__weak` 是 **ARM GCC 编译器扩展语法**，标准 C 语言本身没有这个关键字，只在 STM32、单片机嵌入式开发常用。\n\n库中先定义一个空的`__weak`默认函数；\n\n用户工程里写**同名普通函数**，会自动覆盖弱函数；\n\n如果用户不实现，程序自动使用库内弱函数，不会报未定义错误\n\ndemo \n\n文件1\n\n```c\n// lib.c\n#include \n#define UNUSED(x) (void)(x)\n\n// 弱函数\n__weak void HAL_WWDG_Callback(void)\n{\n    printf(\"执行库里面的弱函数（默认空逻辑）\\r\\n\");\n}\n\n// 底层固定调用入口\nvoid WWDG_ISR(void)\n{\n    HAL_WWDG_Callback();\n}\n```\n\n文件2\n\n```c\n#include \n\n// 强函数，自动覆盖上面的弱函数\nvoid HAL_WWDG_Callback(void)\n{\n    printf(\"执行用户写的强函数，覆盖库弱函数\\r\\n\");\n}\n\nextern void WWDG_ISR(void);\n\nint main(void)\n{\n    WWDG_ISR();\n    return 0;\n}\n```\n\n输出 执行用户写的强函数，覆盖库弱函数\n\n多用于库提供回调接口（WWDG、EXTI、UART、TIM 所有 HAL 回调）；"
+    },
+    {
+      "id": "C_C++/C extra.md#4",
+      "title": "C extra",
+      "category": "C_C++",
+      "heading": "宏",
+      "path": "/notes/C_C%2B%2B/C%20extra.md",
+      "content": "## 宏\n\n```c\n#ifndef user_malloc\n#ifdef _CMSIS_OS_H\n#define user_malloc pvPortMalloc\n#else\n#define user_malloc malloc\n#endif\n#endif\n```\n\n两种分配内存的方式 \n\n裸机\t\t\t malloc\n\n FreeRTOS\t\tpvPortMalloc"
     },
     {
       "id": "C_C++/C.md#1",

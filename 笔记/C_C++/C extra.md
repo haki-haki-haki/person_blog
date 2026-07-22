@@ -135,3 +135,23 @@ int main(void)
 输出 执行用户写的强函数，覆盖库弱函数
 
 多用于库提供回调接口（WWDG、EXTI、UART、TIM 所有 HAL 回调）；
+
+
+
+## 宏
+
+```c
+#ifndef user_malloc
+#ifdef _CMSIS_OS_H
+#define user_malloc pvPortMalloc
+#else
+#define user_malloc malloc
+#endif
+#endif
+```
+
+两种分配内存的方式 
+
+裸机			 malloc
+
+ FreeRTOS		pvPortMalloc

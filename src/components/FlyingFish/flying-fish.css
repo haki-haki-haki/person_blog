@@ -1,0 +1,21 @@
+.flying-fish-container {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  pointer-events: auto;
+  margin-top: -1px;
+}
+
+.flying-fish-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .flying-fish-container {
+    height: 150px;
+  }
+}
