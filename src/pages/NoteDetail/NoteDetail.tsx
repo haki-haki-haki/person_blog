@@ -103,6 +103,21 @@ const NoteDetail = () => {
     processed = processed.replace(/\\&gt;/g, '&gt;');
     processed = processed.replace(/\\&quot;/g, '&quot;');
 
+    // 将 LaTeX 环境（\begin{align*}...\end{align*} 等）转为 $$...$$ 格式
+    // remark-math + rehype-katex 只识别 $ 和 $$，不识别 \begin 环境
+    processed = processed.replace(
+      /\$?\s*\\begin\{([^}]+)\}([\s\S]*?)\\end\{\1\}\s*\$?/g,
+      (_match: string, env: string, content: string) => {
+        const trimmed = content.trim();
+        // 对 align 类环境，将 \\ 拆成多行，确保 KaTeX 正确解析
+        if (/^align\*?$/.test(env)) {
+          const lines = trimmed.split('\\\\').map(l => l.trim()).filter(Boolean);
+          return `\n$$\n${lines.join(' \\\\\n')}\n$$\n`;
+        }
+        return `\n$$\n${trimmed}\n$$\n`;
+      }
+    );
+
     // 处理本地 file:/// 图片和 /notes-images/ 路径
     processed = processed.replace(
       /<img\s+[^>]*src="file:\/\/\/[^"]*"[^>]*\/?>/gi,
