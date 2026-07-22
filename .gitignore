@@ -17,3 +17,4 @@ yarn-error.log*
 .swc/
 .vite/
 .gh-pages-worktree
+.gh-pages-deploy
