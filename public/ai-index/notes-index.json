@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-22T08:44:40.220Z",
-  "chunkCount": 458,
+  "generatedAt": "2026-07-22T09:35:09.596Z",
+  "chunkCount": 466,
   "chunks": [
     {
       "id": "C_C++/C and C++ 优化 keil.md#1",
@@ -2161,6 +2161,70 @@
       "heading": "7\\. 最终标准稳定烧录配置",
       "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/SWD%E9%80%9A%E4%BF%A1%E6%97%B6%E5%BA%8F%E5%8E%9F%E7%90%86%20%26%20Keil%E7%83%A7%E5%BD%95Contents%20mismatch%E6%95%85%E9%9A%9C%E7%BB%88%E6%9E%81%E8%AF%A6%E8%A7%A3.md",
       "content": "# 7\\. 最终标准稳定烧录配置\n\n魔法棒 → Debug → Settings → Flash Download\n\n- 通信模式：SWD（关闭JTAG）\n\n- SWD时钟：1MHz（时序最稳）\n\n- 复位方式：**SYSRESETREQ / HW RESET**（禁止Auto）\n\n- 擦除方式：Erase Full Chip\n\n- 勾选：Verify、Reset and Run\n\n---"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#1",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "限幅",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "## 限幅\n\n主要是语法\n\n```c\n#define VAL_LIMIT(val, min, max) \\\n    do                           \\\n    {                            \\\n        if ((val) = (max)) \\\n        {                        \\\n            (val) = (max);       \\\n        }                        \\\n    } while(0)\n```\n\nwhile的运用符合语法规则"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#2",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "快速开方 牛顿迭代",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "## 快速开方 牛顿迭代\n\n```c\nfloat Sqrt(float x)\n{\n    float y;\n    float delta;\n    float maxError;\n    if (x  maxError || delta > 1);\n    y = *(float *)&i;\n    y = y * (1.5f - (halfnum * y * y));\n    return y;\n}\n```\n\n证明参考   https://www.cnblogs.com/MeltingPot/p/19165461"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#3",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "斜坡函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "## 斜坡函数\n\n累加实现\n\n```c\ntypedef struct\n{\n    float input;        //输入数据\n    float out;          //输出数据\n    float min_value;    //限幅最小值\n    float max_value;    //限幅最大值\n    float frame_period; //时间间隔\n} ramp_function_source_t;\n```\n\n初始化省略\n\n```c\nfloat ramp_calc(ramp_function_source_t *ramp_source_type, float input)\n{\n    ramp_source_type->input = input;\n    ramp_source_type->out += ramp_source_type->input * ramp_source_type->frame_period;\n    if (ramp_source_type->out > ramp_source_type->max_value)\n    {\n        ramp_source_type->out = ramp_source_type->max_value;\n    }\n    else if (ramp_source_type->out min_value)\n    {\n        ramp_source_type->out = ramp_source_type->min_value;\n    }\n    return ramp_source_type->out;\n}\n```"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#4",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "循环限幅函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "## 循环限幅函数\n\n相位，角度常用 全部转化为一个区间内 如加减2Π\n\n```c\nfloat loop_float_constrain(float Input, float minValue, float maxValue)\n{\n    if (maxValue  maxValue)\n    {\n        float len = maxValue - minValue;\n        while (Input > maxValue)\n        {\n            Input -= len;\n        }\n    }\n    else if (Input Order = order;\n    OLS->Count = 0;\n    OLS->x = (float *)user_malloc(sizeof(float) * order);\n    OLS->y = (float *)user_malloc(sizeof(float) * order);\n    OLS->k = 0;\n    OLS->b = 0;\n    memset((void *)OLS->x, 0, sizeof(float) * order);\n    memset((void *)OLS->y, 0, sizeof(float) * order);\n    memset((void *)OLS->t, 0, sizeof(float) * 4);\n}\n```\n\n开辟空间 得到数组\n\n返回斜率/微分"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#5",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "循环限幅函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "```c\nfloat OLS_Derivative(Ordinary_Least_Squares_t *OLS, float deltax, float y)\n{\n    static float temp = 0;\n    temp = OLS->x[1];\n    for (uint16_t i = 0; i Order - 1; ++i)\n    {\n        OLS->x[i] = OLS->x[i + 1] - temp;\n        OLS->y[i] = OLS->y[i + 1];\n    }\n    OLS->x[OLS->Order - 1] = OLS->x[OLS->Order - 2] + deltax;\n    OLS->y[OLS->Order - 1] = y;\n\n    if (OLS->Count Order)\n    {\n        OLS->Count++;\n    }\n\n    memset((void *)OLS->t, 0, sizeof(float) * 4);\n    for (uint16_t i = OLS->Order - OLS->Count; i Order; ++i)\n    {\n        OLS->t[0] += OLS->x[i] * OLS->x[i];\n        OLS->t[1] += OLS->x[i];\n        OLS->t[2] += OLS->x[i] * OLS->y[i];\n        OLS->t[3] += OLS->y[i];\n    }\n\n    OLS->k = (OLS->t[2] * OLS->Order - OLS->t[1] * OLS->t[3]) / (OLS->t[0] * OLS->Order - OLS->t[1] * OLS->t[1]);"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#6",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "循环限幅函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "OLS->StandardDeviation = 0;\n    for (uint16_t i = OLS->Order - OLS->Count; i Order; ++i)\n    {\n        OLS->StandardDeviation += fabsf(OLS->k * OLS->x[i] + OLS->b - OLS->y[i]);\n    }\n    OLS->StandardDeviation /= OLS->Order;\n\n    return OLS->k;\n}\n```\n\n返回预测 平滑值\n\n```c\nfloat OLS_Smooth(Ordinary_Least_Squares_t *OLS, float deltax, float y)\n{\n    static float temp = 0;\n    temp = OLS->x[1];\n    for (uint16_t i = 0; i Order - 1; ++i)\n    {\n        OLS->x[i] = OLS->x[i + 1] - temp;\n        OLS->y[i] = OLS->y[i + 1];\n    }\n    OLS->x[OLS->Order - 1] = OLS->x[OLS->Order - 2] + deltax;\n    OLS->y[OLS->Order - 1] = y;\n\n    if (OLS->Count Order)\n    {\n        OLS->Count++;\n    }"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#7",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "循环限幅函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "memset((void *)OLS->t, 0, sizeof(float) * 4);\n    for (uint16_t i = OLS->Order - OLS->Count; i Order; ++i)\n    {\n        OLS->t[0] += OLS->x[i] * OLS->x[i];\n        OLS->t[1] += OLS->x[i];\n        OLS->t[2] += OLS->x[i] * OLS->y[i];\n        OLS->t[3] += OLS->y[i];\n    }\n\n    OLS->k = (OLS->t[2] * OLS->Order - OLS->t[1] * OLS->t[3]) / (OLS->t[0] * OLS->Order - OLS->t[1] * OLS->t[1]);\n    OLS->b = (OLS->t[0] * OLS->t[3] - OLS->t[1] * OLS->t[2]) / (OLS->t[0] * OLS->Order - OLS->t[1] * OLS->t[1]);\n\n    OLS->StandardDeviation = 0;\n    for (uint16_t i = OLS->Order - OLS->Count; i Order; ++i)\n    {\n        OLS->StandardDeviation += fabsf(OLS->k * OLS->x[i] + OLS->b - OLS->y[i]);\n    }\n    OLS->StandardDeviation /= OLS->Order;\n\n    return OLS->k * OLS->x[OLS->Order - 1] + OLS->b;\n}\n```\n\ndemo\n\n```c\nOrdinary_Least_Squares_t ols;\nOLS_Init(&ols, 8);\nfloat dt = 0.001f;"
+    },
+    {
+      "id": "嵌入式开发/user_lib.md#8",
+      "title": "user_lib",
+      "category": "嵌入式开发",
+      "heading": "循环限幅函数",
+      "path": "/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/user_lib.md",
+      "content": "// 1ms定时器内执行，输入原始带噪声角度\nfloat raw_angle = encoder_get_angle();\nfloat smooth_angle = OLS_Smooth(&ols, dt, raw_angle);\n\n// 随时获取角速度，不用重复计算\nfloat speed = Get_OLS_Derivative(&ols);\n```"
     },
     {
       "id": "嵌入式开发/VGD 2026 Dart Learning.md#1",

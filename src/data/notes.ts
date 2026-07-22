@@ -154,6 +154,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/Dart 上位机通信协议.md',
     tags: ['Dart', '上位机', '通信协议', 'STM32', 'UART', 'DMA'],
   },
+  {
+    id: 'embedded-17',
+    title: 'user_lib 工具函数库',
+    category: 'embedded',
+    date: '2025-07-22',
+    summary: '整理嵌入式常用工具函数：限幅宏、牛顿迭代快速开方、平方根倒数（0x5f375a86 魔数法）、斜坡函数、循环限幅函数（角度归一化）、最小二乘法拟合（OLS 平滑与微分）...',
+    filePath: '/notes/embedded/user_lib.md',
+    tags: ['C语言', '工具函数', '限幅', '开方', '最小二乘法', '数值计算'],
+  },
   // C/C++
   {
     id: 'cpp-1',
