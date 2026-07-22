@@ -16,3 +16,4 @@ yarn-error.log*
 .nuxt/
 .swc/
 .vite/
+.gh-pages-worktree
