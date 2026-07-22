@@ -9,6 +9,7 @@ import Ghostty from '@/pages/Ghostty';
 import Play from '@/pages/Play';
 import Settings from '@/components/Settings/Settings';
 import AskAI from '@/components/AskAI/AskAI';
+import FlyingFish from '@/components/FlyingFish';
 import { useStore } from '@/store/useStore';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className={`app-container ${isBlackWhite ? 'black-white' : ''}`}>
+      <FlyingFish />
       <BrowserRouter basename="/person_blog">
         <Settings />
         <AskAI />

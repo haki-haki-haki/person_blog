@@ -57,7 +57,7 @@ const SPRING_FRICTION = 0.025;
 const WAVE_SPREAD = 0.25;
 const POINT_INTERVAL = 6; // 水面点间距
 const FISH_COUNT = 3; // 鱼的数量
-const INIT_HEIGHT_RATE = 0.5; // 水面高度比例
+const INIT_HEIGHT_RATE = 0.65; // 水面高度比例（偏下，波浪在 canvas 下半部分）
 
 // ==================== 鱼/海豚 ====================
 class Fish {
@@ -129,6 +129,18 @@ class Fish {
 
     // 限制水平速度
     this.vx = Math.max(-6, Math.min(6, this.vx));
+
+    // 限制垂直位置：不能跑出 canvas 顶部，也不能沉到太深
+    const minY = 20;
+    const maxY = renderer.height - 10;
+    if (this.y < minY) {
+      this.y = minY;
+      this.vy = Math.abs(this.vy) * 0.3; // 碰到顶部反弹
+    }
+    if (this.y > maxY) {
+      this.y = maxY;
+      this.vy = -Math.abs(this.vy) * 0.3;
+    }
 
     // 游出屏幕重新初始化
     if (this.x < -80 || this.x > renderer.width + 80) {
@@ -297,11 +309,11 @@ class FishRenderer {
     // XOR 混合模式 → 透明叠加效果
     ctx.globalCompositeOperation = 'xor';
 
-    // 绘制多层波浪（深浅不同）
+    // 绘制多层波浪（深浅不同）—— 颜色更浅但可见
     const layers = [
-      { offset: 0, alpha: 0.15, color: '0, 255, 136' },
-      { offset: 10, alpha: 0.10, color: '0, 200, 120' },
-      { offset: 20, alpha: 0.06, color: '100, 255, 180' },
+      { offset: 0, alpha: 0.10, color: '0, 255, 136' },
+      { offset: 8, alpha: 0.07, color: '0, 200, 120' },
+      { offset: 16, alpha: 0.04, color: '100, 255, 180' },
     ];
 
     for (const layer of layers) {
