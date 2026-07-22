@@ -20,6 +20,7 @@ var copyIndexTo404 = function () {
 };
 export default defineConfig({
     base: '/person_blog/',
+    build: { emptyOutDir: true },
     plugins: [react(), copyIndexTo404()],
     resolve: {
         alias: {
