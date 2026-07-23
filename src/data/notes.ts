@@ -172,6 +172,15 @@ export const notes: Note[] = [
     filePath: '/notes/embedded/快速平方根取倒数.md',
     tags: ['平方根倒数', '牛顿迭代', 'IEEE754', '魔数', '数值计算', 'C语言'],
   },
+  {
+    id: 'embedded-19',
+    title: 'Keil STM32 编译报错 "_Pos is undefined" 解决教程',
+    category: 'embedded',
+    date: '2026-07-23',
+    summary: 'Keil STM32F4 工程编译报大量 XXX_Pos is undefined 错误的完整排查过程，详解 DFP 设备包概念、头文件版本差异及四种解决方案...',
+    filePath: '/notes/embedded/Keil_DFP_编译错误.md',
+    tags: ['Keil', 'STM32', 'DFP', '编译错误', 'CMSIS', '头文件'],
+  },
   // C/C++
   {
     id: 'cpp-1',
