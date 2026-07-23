@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="motor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f2937"/>
+      <stop offset="100%" stop-color="#4b5563"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#0f172a" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1120" height="560" rx="34" fill="url(#bg)"/>
+  <rect x="34" y="34" width="1052" height="492" rx="28" fill="white" stroke="#dbe3f0" stroke-width="2"/>
+
+  <text x="70" y="92" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="800" fill="#111827">
+    DM-H3510 轮毂电机物件连接示意
+  </text>
+  <text x="70" y="128" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#64748b">
+    电机本体、8pin 电源/CAN 通信线、3pin 调试串口线、转换板
+  </text>
+
+  <g filter="url(#shadow)">
+    <circle cx="250" cy="300" r="112" fill="url(#motor)"/>
+    <circle cx="250" cy="300" r="80" fill="#111827"/>
+    <circle cx="250" cy="300" r="44" fill="#e5e7eb"/>
+    <circle cx="250" cy="300" r="18" fill="#64748b"/>
+    <g stroke="#e5e7eb" stroke-width="12" stroke-linecap="round">
+      <line x1="250" y1="206" x2="250" y2="245"/>
+      <line x1="250" y1="355" x2="250" y2="394"/>
+      <line x1="156" y1="300" x2="195" y2="300"/>
+      <line x1="305" y1="300" x2="344" y2="300"/>
+      <line x1="184" y1="234" x2="212" y2="262"/>
+      <line x1="288" y1="338" x2="316" y2="366"/>
+      <line x1="316" y1="234" x2="288" y2="262"/>
+      <line x1="212" y1="338" x2="184" y2="366"/>
+    </g>
+  </g>
+  <text x="175" y="456" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">电机（含驱动）</text>
+
+  <g stroke="#94a3b8" stroke-width="12" fill="none" stroke-linecap="round">
+    <path d="M365 280 C460 230, 500 230, 590 260"/>
+    <path d="M365 322 C475 378, 515 382, 610 335"/>
+  </g>
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">
+    <rect x="418" y="218" width="118" height="38" rx="19" fill="#dbeafe"/>
+    <text x="445" y="243" fill="#1d4ed8">8pin</text>
+    <rect x="438" y="360" width="118" height="38" rx="19" fill="#dcfce7"/>
+    <text x="466" y="385" fill="#15803d">3pin</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="626" y="190" width="280" height="210" rx="24" fill="#f8fafc" stroke="#94a3b8" stroke-width="3"/>
+    <rect x="658" y="226" width="216" height="50" rx="12" fill="#111827"/>
+    <rect x="658" y="314" width="216" height="50" rx="12" fill="#111827"/>
+    <circle cx="686" cy="251" r="8" fill="#22c55e"/>
+    <circle cx="716" cy="251" r="8" fill="#f97316"/>
+    <circle cx="746" cy="251" r="8" fill="#3b82f6"/>
+    <circle cx="776" cy="251" r="8" fill="#ef4444"/>
+    <circle cx="806" cy="251" r="8" fill="#a855f7"/>
+    <circle cx="836" cy="251" r="8" fill="#facc15"/>
+    <text x="690" y="346" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="800" fill="#e5e7eb">XT30 / GH1.25</text>
+  </g>
+  <text x="672" y="456" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">转换板</text>
+
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#334155">
+    <rect x="930" y="206" width="116" height="44" rx="22" fill="#fee2e2"/>
+    <text x="949" y="234" fill="#b91c1c" font-weight="700">电源输入</text>
+    <rect x="930" y="270" width="116" height="44" rx="22" fill="#dbeafe"/>
+    <text x="958" y="298" fill="#1d4ed8" font-weight="700">CAN通信</text>
+    <rect x="930" y="334" width="116" height="44" rx="22" fill="#dcfce7"/>
+    <text x="949" y="362" fill="#15803d" font-weight="700">调试串口</text>
+  </g>
+
+  <text x="70" y="505" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#64748b">
+    注：这是根据笔记内容制作的示意图。若要显示真实照片，请把原图放入 public/notes-images/ 后替换本文图片路径。
+  </text>
+</svg>
