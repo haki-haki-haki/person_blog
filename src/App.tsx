@@ -7,6 +7,7 @@ import Notes from '@/pages/Notes';
 import Diary from '@/pages/Diary/Diary';
 import Ghostty from '@/pages/Ghostty';
 import Play from '@/pages/Play';
+import HikeYourTodos from '@/pages/HikeYourTodos/HikeYourTodos';
 import Settings from '@/components/Settings/Settings';
 import AskAI from '@/components/AskAI/AskAI';
 import { useStore } from '@/store/useStore';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/diary" element={<Diary />} />
           <Route path="/ghostty" element={<Ghostty />} />
           <Route path="/play" element={<Play />} />
+          <Route path="/hike-your-todos" element={<HikeYourTodos />} />
         </Routes>
       </BrowserRouter>
     </div>
